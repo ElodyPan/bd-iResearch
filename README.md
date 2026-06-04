@@ -1,37 +1,88 @@
+# iResearch 艾瑞咨询 · 行业研究方案
 
-<div align="center">
-
-# 🎉 Congratulations ElodyPan! 🎉
-
-<img src="https://octodex.github.com/images/welcometocat.png" height="200px" />
-
-### 🌟 You've successfully completed the exercise! 🌟
-
-## 🚀 Share Your Success!
-
-**Show off your new skills and inspire others!**
-
-<a href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%22GitHub%20Pages%22%20GitHub%20Skills%20hands-on%20exercise!%20%F0%9F%8E%89%0A%0Ahttps%3A%2F%2Fgithub.com%2FElodyPan%2Fbd-iResearch%0A%0A%23GitHubSkills%20%23OpenSource%20%23GitHubLearn%0A" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/badge/Share%20on%20X-1da1f2?style=for-the-badge&logo=x&logoColor=white" alt="Share on X" />
-</a>
-<a href="https://bsky.app/intent/compose?text=I%20just%20completed%20the%20%22GitHub%20Pages%22%20GitHub%20Skills%20hands-on%20exercise!%20%F0%9F%8E%89%0A%0Ahttps%3A%2F%2Fgithub.com%2FElodyPan%2Fbd-iResearch%0A%0A%23GitHubSkills%20%23OpenSource%20%23GitHubLearn%0A" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/badge/Share%20on%20Bluesky-0085ff?style=for-the-badge&logo=bluesky&logoColor=white" alt="Share on Bluesky" />
-</a>
-<a href="https://www.linkedin.com/feed/?shareActive=true&text=I%20just%20completed%20the%20%22GitHub%20Pages%22%20GitHub%20Skills%20hands-on%20exercise!%20%F0%9F%8E%89%0A%0Ahttps%3A%2F%2Fgithub.com%2FElodyPan%2Fbd-iResearch%0A%0A%23GitHubSkills%20%23OpenSource%20%23GitHubLearn%0A" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/badge/Share%20on%20LinkedIn-0077b5?style=for-the-badge&logo=linkedin&logoColor=white" alt="Share on LinkedIn" />
-</a>
-
-### 🎯 What's Next?
-**Keep the momentum going!**
-
-[![](https://img.shields.io/badge/Return%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/ElodyPan/bd-iResearch/issues/1)
-[![GitHub Skills](https://img.shields.io/badge/Explore%20GitHub%20Skills-000000?style=for-the-badge&logo=github&logoColor=white)](https://skills.github.com)
-
-*There's no better way to learn than building things!* 🚀
-
-</div>
+> 专业、独立、可定制的行业研究咨询方案展示系统
 
 ---
 
-&copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+## 📋 项目简介
 
+本项目是 **iResearch 艾瑞咨询** 面向企业客户的行业研究咨询方案展示页面。通过标准化的网页模板，快速生成针对各行业（金融科技、跨境电商、AI 应用等）的专业研究方案，供客户在线预览。
+
+---
+
+## 🎯 核心能力
+
+| 服务模块 | 说明 |
+|---------|------|
+| **行业研究** | 市场规模测算、竞争格局分析、发展趋势预判、产业链梳理 |
+| **IPO 咨询** | 行业顾问服务、招股书撰写、监管问询回复支持 |
+| **用户研究** | 用户画像构建、需求洞察、满意度调研、行为路径分析 |
+| **出海研究** | 海外市场洞察、本地化策略、跨境支付、合规风险评估 |
+
+---
+
+## 🚀 页面功能
+
+- **在线预览模式**：客户可直接在浏览器中查看完整方案
+- **编辑模式**：灵活调整标题、案例、执行计划、报价等内容
+- **导出 HTML**：生成独立文件，支持离线查看
+- **打印 / PDF**：一键输出为 PDF 格式，便于存档与转发
+- **响应式设计**：适配桌面、平板、手机多种设备
+
+---
+
+## 📁 仓库结构
+.
+├── index.html          # 方案展示主页（默认入口）
+├── README.md           # 项目说明
+└── LICENSE             # MIT 开源协议
+
+> 注：实际业务中，每个客户的方案通过编辑 `index.html` 中的数据字段进行定制，无需改动页面结构与样式。
+
+---
+
+## 🛠 快速使用
+
+### 1. 查看方案
+
+直接访问以下链接即可在线预览：
+
+🔗 **[https://elodypan.github.io/bd-iResearch/](https://elodypan.github.io/bd-iResearch/)**
+
+### 2. 编辑方案内容
+
+1. 打开页面后，点击顶部 **"编辑"** 按钮进入编辑模式
+2. 在各板块点击 **"编辑"** 标签，修改内容：
+   - 封面信息（方案标题、客户名称、日期）
+   - 研究案例（报告简介、封面图、链接）
+   - 执行方案（时间表甘特图）
+   - 项目报价
+3. 点击 **保存** 预览效果
+4. 点击 **导出 HTML** 或 **打印/PDF** 生成最终文件
+
+### 3. 部署自己的版本
+
+如需为特定客户部署独立页面：
+
+```bash
+# Fork 本仓库
+git clone https://github.com/ElodyPan/bd-iResearch.git
+
+# 修改 index.html 中的 DATA 对象（方案内容数据）
+# 提交并推送到 GitHub Pages
+🏢 关于 iResearch 艾瑞咨询
+iResearch 是中国新经济与产业数字化研究咨询领域的领导品牌，近二十年来持续为资本市场提供独家深度的市场洞察。
+
+200+ 年均发布报告
+50+ 覆盖行业领域
+1000万+ 年均报告阅读
+6 大全球办公室（上海、北京、深圳、广州、纽约、硅谷）
+📞 联系我们
+如需定制行业研究方案或咨询合作，请通过以下方式联系：
+
+🌐 官网：www.iresearch.com.cn
+📧 商务合作：请通过官网联系表单留言
+📄 许可协议
+本项目采用 MIT License 开源协议。
+
+⚠️ 本仓库中的方案内容仅供内部讨论与客户演示使用，未经授权请勿对外传播。
