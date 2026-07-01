@@ -1,0 +1,3742 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iResearch 艾瑞咨询 | 行业研究方案</title>
+<style>
+:root {
+  --primary: #65AF45;
+  --primary-light: #8BC53F;
+  --primary-lighter: #B2D234;
+  --primary-bg: #F0F9EC;
+  --primary-bg-light: #F7FCF5;
+  --black: #1D1D1F;
+  --gray-900: #2D2D2F;
+  --gray-700: #515154;
+  --gray-500: #86868B;
+  --gray-300: #D2D2D7;
+  --gray-100: #F5F5F7;
+  --gray-50: #FAFAFA;
+  --gray-200: #E5E5E8;
+  --white: #fff;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:80px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--black); line-height:1.6; background:var(--white);
+}
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ===== Mode Controls (inside top nav) ===== */
+.nav-controls {
+  display:flex; align-items:center; gap:8px;
+}
+
+/* Hamburger menu */
+.nav-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--black);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+.nav-menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-menu-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile Navigation */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(20px);
+  z-index: 300;
+  padding: 24px;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+}
+.mobile-nav.open { transform: translateX(0); }
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 299;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.mobile-nav-overlay.open { opacity: 1; pointer-events: auto; }
+.mobile-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.mobile-nav-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--gray-100);
+  border-radius: 50%;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mobile-nav-close:hover { background: var(--gray-200); color: var(--black); }
+.mobile-nav-links { list-style: none; padding: 0; }
+.mobile-nav-links li { margin-bottom: 4px; }
+.mobile-nav-links a {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--gray-700);
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.mobile-nav-links a:hover { background: var(--gray-100); color: var(--black); }
+.mobile-nav-links a.active { background: var(--primary-bg); color: var(--primary); font-weight: 600; }
+.mobile-nav-links li.mobile-sub a {
+  padding-left: 28px;
+  font-size: 14px;
+  color: var(--gray-500);
+}
+.mobile-nav-links li.mobile-sub a:hover { color: var(--gray-700); }
+.mode-toggle { display:flex; gap:3px; background:var(--gray-100); border-radius:8px; padding:3px; }
+.mode-toggle button {
+  padding:5px 14px; border:none; border-radius:6px; font-size:12px; font-weight:600;
+  cursor:pointer; transition:all .2s; color:var(--gray-500); background:transparent;
+}
+.mode-toggle button.active { background:var(--primary); color:var(--white); box-shadow:0 2px 8px rgba(101,175,69,0.3); }
+.mode-actions { display:flex; gap:6px; }
+.mode-actions button {
+  padding:5px 12px; border:1px solid var(--gray-300); border-radius:6px;
+  background:var(--white); color:var(--gray-700); font-size:12px; font-weight:600;
+  cursor:pointer; transition:all .2s;
+}
+.mode-actions button:hover { border-color:var(--primary); color:var(--primary); }
+.mode-actions button.primary { background:var(--primary); border-color:var(--primary); color:var(--white); }
+.mode-actions button.primary:hover { background:var(--primary-light); border-color:var(--primary-light); color:var(--white); }
+.mode-actions button.save-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ===== Scroll Progress Bar ===== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ===== Top Navigation ===== */
+.top-nav {
+  position:fixed; top:0; left:0; right:0; height:64px;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(16px) saturate(1.5);
+  -webkit-backdrop-filter:blur(16px) saturate(1.5);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px;
+  transition:all .3s ease;
+}
+.top-nav.scrolled {
+  background:rgba(255,255,255,0.95);
+  box-shadow:0 4px 30px rgba(0,0,0,0.08);
+}
+.top-nav .nav-brand {
+  display:flex; align-items:center;
+}
+.top-nav-links {
+  display:flex; align-items:center; gap:6px; list-style:none;
+}
+.top-nav-links a {
+  display:block; padding:8px 16px; border-radius:8px;
+  text-decoration:none; color:var(--gray-700); font-size:13.5px;
+  transition:all .2s; font-weight:500; white-space:nowrap;
+}
+.top-nav-links a:hover { color:var(--black); background:var(--gray-100); }
+.top-nav-links a.active { color:var(--primary); background:var(--primary-bg); font-weight:600; }
+
+/* Dropdown navigation */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown > a svg {
+  transition: transform 0.2s ease;
+}
+.nav-dropdown:hover > a svg {
+  transform: rotate(180deg);
+}
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  min-width: 160px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--gray-100);
+  border-radius: 12px;
+  padding: 8px;
+  list-style: none;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 101;
+}
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown:focus-within .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.dropdown-menu a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.dropdown-menu a:hover {
+  background: var(--gray-100);
+}
+
+/* ===== Main ===== */
+.main { padding-top:64px; min-height:100vh; }
+.container { max-width:960px; margin:0 auto; padding:0 48px; }
+
+/* ===== Sections ===== */
+.section { padding:80px 0; border-bottom:1px solid var(--gray-100); position:relative; }
+.section:last-child { border-bottom:none; }
+
+/* ===== Tech Effects ===== */
+.grid-bg { position:relative; overflow:hidden; }
+.grid-bg::before {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(101,175,69,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(101,175,69,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events:none; z-index:0;
+}
+.grid-bg > * { position:relative; z-index:1; }
+
+.glow { text-shadow: 0 0 30px rgba(101,175,69,0.35), 0 0 60px rgba(101,175,69,0.1); }
+
+.reveal {
+  opacity: 0; transform: translateY(30px) scale(0.96);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+.card-tech {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-tech:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px rgba(101,175,69,0.14);
+  border-color: rgba(101,175,69,0.3);
+}
+
+.dark-section {
+  background: linear-gradient(180deg, #0d0d0d 0%, #141414 100%);
+  color: var(--white); position:relative; overflow:hidden;
+}
+.dark-section::before {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(101,175,69,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(101,175,69,0.03) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events:none;
+}
+.dark-section .container { position:relative; z-index:1; }
+.dark-section .sec-label { color: var(--primary); }
+.dark-section .sec-title { color: var(--white); }
+.dark-section .card {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+  color: var(--white);
+}
+.dark-section .card h3 { color: var(--white); }
+.dark-section .card p { color: rgba(255,255,255,0.55); }
+.dark-section .card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(101,175,69,0.35);
+  box-shadow: 0 16px 48px rgba(101,175,69,0.12);
+}
+
+/* 浮动装饰 */
+.float-orb {
+  position:absolute; border-radius:50%; filter:blur(60px);
+  pointer-events:none; opacity:0.15;
+}
+.hero-orb-1 {
+  width:300px; height:300px; background:var(--primary);
+  top:-100px; right:-60px; animation: orbFloat 8s ease-in-out infinite;
+}
+.hero-orb-2 {
+  width:200px; height:200px; background:var(--primary-light);
+  bottom:-60px; left:10%; animation: orbFloat 10s ease-in-out infinite 1s;
+}
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-15px, -20px) scale(1.05); }
+  66% { transform: translate(10px, 10px) scale(0.95); }
+}
+
+/* 渐变光条 */
+.light-bar {
+  height:1px; background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity:0.4;
+}
+.section:last-child { border-bottom:none; }
+
+.sec-label {
+  font-size:13px; font-weight:600; color:var(--primary);
+  letter-spacing:3px; text-transform:uppercase; margin-bottom:16px;
+}
+.sec-title {
+  font-size:40px; font-weight:700; line-height:1.15; margin-bottom:20px;
+  letter-spacing:-0.02em;
+}
+.sec-desc { font-size:17px; color:var(--gray-700); line-height:1.8; margin-bottom:48px; max-width:640px; }
+#teamDesc {
+  max-width: 100%;
+}
+#casesDesc {
+  max-width: 100%;
+}
+
+/* ===== Edit Badge ===== */
+.edit-badge {
+  position:absolute; top:24px; right:24px;
+  padding:4px 12px; background:var(--primary-bg); color:var(--primary);
+  border-radius:4px; font-size:11px; font-weight:600; cursor:pointer;
+  display:none;
+}
+body.edit-mode .edit-badge { display:block; }
+
+/* ===== Hero ===== */
+.hero {
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  background:var(--black); color:var(--white); position:relative;
+  padding:120px 0 80px;
+}
+.hero .hero-inner {
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:1fr 1.2fr; gap:56px; align-items:center;
+}
+.hero-text { position:relative; }
+.hero-scroll-hint {
+  position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--gray-500); font-size:12px; letter-spacing:2px;
+  text-transform:uppercase; cursor:pointer;
+  animation:bounceDown 2s ease-in-out infinite;
+}
+.hero-scroll-hint svg {
+  width:20px; height:20px; stroke:var(--gray-500); stroke-width:2;
+  fill:none;
+}
+@keyframes bounceDown {
+  0%,100%{transform:translateX(-50%) translateY(0);opacity:.5}
+  50%{transform:translateX(-50%) translateY(8px);opacity:1}
+}
+.hero .container { max-width:1100px; }
+.hero h1 { font-size:52px; font-weight:700; line-height:1.1; margin-bottom:24px; letter-spacing:-0.02em; }
+.hero h1 em { font-style:normal; color:var(--primary); }
+.hero p { font-size:18px; color:var(--gray-500); max-width:520px; line-height:1.8; margin-bottom:48px; }
+.hero-meta { display:flex; gap:48px; font-size:14px; color:var(--gray-500); }
+.hero-meta strong { color:var(--white); font-weight:500; }
+
+/* Hero Visual — case wall image */
+.hero-visual {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(101,175,69,0.08), 0 24px 60px rgba(0,0,0,0.25);
+}
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--black) 0%, rgba(29,29,31,0.6) 25%, transparent 45%);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+}
+.hero-visual img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(1.18);
+  transform-origin: center center;
+}
+
+/* ===== Stats Row ===== */
+.stats-row { display:flex; gap:0; border:1px solid var(--gray-300); border-radius:16px; overflow:hidden; margin:40px 0; }
+.stat-cell { flex:1; padding:28px 20px; text-align:center; border-right:1px solid var(--gray-100); }
+.stat-cell:last-child { border-right:none; }
+.stat-cell .n { font-size:32px; font-weight:700; color:var(--primary); line-height:1; margin-bottom:6px; white-space:nowrap; }
+.stat-cell .l { font-size:12px; color:var(--gray-500); }
+
+/* ===== Outline Tree ===== */
+.outline-tree { margin-top:24px; }
+.outline-chapter {
+  border:1px solid var(--gray-300); border-radius:16px; margin-bottom:12px; overflow:hidden;
+}
+.outline-header {
+  display:flex; align-items:center; gap:16px; padding:20px 24px;
+  background:var(--white); cursor:pointer; transition:all .15s;
+}
+.outline-header:hover { background:var(--gray-100); }
+.outline-header .ch-num {
+  width:32px; height:32px; border-radius:8px; background:var(--primary);
+  color:var(--white); display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; flex-shrink:0;
+}
+.outline-header .ch-title { font-size:16px; font-weight:600; flex:1; }
+.outline-header .ch-toggle {
+  font-size:12px; color:var(--gray-500); transition:transform .2s;
+}
+.outline-chapter.open .ch-toggle { transform:rotate(180deg); }
+.outline-body {
+  display:none; padding:0 24px 20px; border-top:1px solid var(--gray-100);
+}
+.outline-chapter.open .outline-body { display:block; animation:fadeIn .3s; }
+
+.outline-section { padding:16px 0; border-bottom:1px solid var(--gray-100); }
+.outline-section:last-child { border-bottom:none; }
+.outline-section .sec-num {
+  font-size:12px; font-weight:600; color:var(--primary); margin-bottom:4px;
+}
+.outline-section .sec-name { font-size:14px; font-weight:500; margin-bottom:8px; }
+.outline-section ul { list-style:none; padding-left:0; }
+.outline-section li {
+  padding:6px 0 6px 20px; font-size:13px; color:var(--gray-700); line-height:1.6;
+  position:relative;
+}
+.outline-section li::before {
+  content:''; position:absolute; left:4px; top:12px;
+  width:4px; height:4px; border-radius:50%; background:var(--gray-300);
+}
+
+/* ===== Gantt Timeline ===== */
+.gantt { margin-top:32px; }
+.gantt-header {
+  display:grid; grid-template-columns:140px 1fr; gap:16px;
+  padding:12px 16px; background:var(--gray-100); border-radius:8px 8px 0 0;
+  font-size:11px; font-weight:600; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px;
+}
+.gantt-row {
+  display:grid; grid-template-columns:140px 1fr; gap:16px;
+  padding:14px 16px; border-bottom:1px solid var(--gray-100); align-items:center;
+}
+.gantt-row:last-child { border-bottom:none; border-radius:0 0 8px 8px; }
+.gantt-row.milestone { background:var(--primary-bg-light); }
+.gantt-row .task-name { font-size:14px; font-weight:500; }
+.gantt-row .task-name span { font-size:11px; color:var(--gray-500); display:block; margin-top:2px; }
+.gantt-track { position:relative; height:28px; background:var(--gray-100); border-radius:6px; }
+.gantt-block {
+  position:absolute; height:100%; border-radius:6px;
+  background:linear-gradient(135deg, var(--primary), var(--primary-light));
+  opacity:0.9; transition:all .2s ease;
+  top:0;
+}
+.gantt-block:hover { opacity:1; transform:scaleY(1.05); }
+body.edit-mode .gantt-block:hover { box-shadow:0 0 0 3px rgba(101,175,69,0.2); }
+.gantt-block.milestone {
+  background:var(--primary); width:14px !important; height:14px !important;
+  border-radius:50%; box-shadow:0 0 0 4px rgba(101,175,69,0.25);
+  top:50%; transform:translateY(-50%);
+}
+.gantt-block.milestone:hover { transform:translateY(-50%) scale(1.2); }
+.gantt-labels {
+  display:grid; grid-template-columns:140px 1fr; gap:16px;
+  padding:8px 16px 0; font-size:11px; color:var(--gray-500);
+}
+.gantt-labels-inner { display:flex; justify-content:space-between; }
+
+/* ===== Gantt Edit Drag ===== */
+body.edit-mode .gantt-block { cursor:grab; }
+body.edit-mode .gantt-block:active { cursor:grabbing; }
+.gantt-handle {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:16px; height:28px;
+  cursor:col-resize; display:none; z-index:20;
+  border-radius:4px;
+}
+body.edit-mode .gantt-handle { display:flex; align-items:center; justify-content:center; }
+.gantt-handle-l { left:-8px; }
+.gantt-handle-r { right:-8px; }
+.gantt-handle::after {
+  content:''; width:3px; height:16px;
+  background:rgba(255,255,255,0.9); border-radius:2px;
+}
+.gantt-row.is-dragging { background:var(--primary-bg-light) !important; }
+.gantt-guide-line {
+  position:absolute; top:0; bottom:0; width:1px;
+  background:var(--primary); opacity:0;
+  pointer-events:none; z-index:5;
+  transition:opacity .1s;
+}
+.gantt-guide-line.show { opacity:0.6; }
+.gantt-block-label {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:10px; font-weight:700; color:#fff;
+  white-space:nowrap; pointer-events:none;
+  text-shadow:0 1px 2px rgba(0,0,0,0.2);
+  opacity:0; transition:opacity .2s;
+}
+.gantt-block.is-dragging .gantt-block-label { opacity:1; }
+.gantt-drag-hint {
+  font-size:11px; color:var(--gray-500); margin-bottom:8px;
+  display:none;
+}
+body.edit-mode .gantt-drag-hint { display:block; }
+
+/* ===== Password Modal ===== */
+.pw-modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  display:none; align-items:center; justify-content:center; z-index:500;
+}
+.pw-modal-overlay.show { display:flex; }
+.pw-modal {
+  background:var(--white); border-radius:12px; padding:32px; width:320px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.2); text-align:center;
+}
+.pw-modal h4 { font-size:16px; font-weight:700; margin-bottom:8px; }
+.pw-modal p { font-size:13px; color:var(--gray-500); margin-bottom:20px; }
+.pw-modal input {
+  width:100%; padding:12px 16px; border:1px solid var(--gray-300);
+  border-radius:8px; font-size:14px; text-align:center; letter-spacing:4px;
+  margin-bottom:16px;
+}
+.pw-modal input:focus { outline:none; border-color:var(--primary); }
+.pw-modal .pw-error { color:var(--primary); font-size:12px; margin-bottom:12px; display:none; }
+.pw-modal button {
+  width:100%; padding:10px; background:var(--primary); color:var(--white);
+  border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;
+}
+.pw-modal button:hover { background:var(--black); }
+
+/* ===== Cards ===== */
+.card-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.card {
+  padding:32px; border:1px solid var(--gray-100); border-radius:20px;
+  transition:all .35s cubic-bezier(0.4,0,0.2,1);
+  background:var(--white);
+}
+.card:hover { border-color:rgba(101,175,69,0.3); box-shadow:0 12px 40px rgba(101,175,69,0.1); transform:translateY(-4px); }
+.card .num { font-size:12px; font-weight:600; color:var(--primary); margin-bottom:12px; }
+.card h3 { font-size:18px; font-weight:600; margin-bottom:10px; }
+.card p { font-size:14px; color:var(--gray-700); line-height:1.7; }
+
+/* ===== Quote ===== */
+.quote-box {
+  background: linear-gradient(135deg, var(--black), #1a1a1e);
+  border: 1px solid rgba(101,175,69,0.15);
+  color:var(--white); border-radius:24px; padding:56px 48px; text-align:center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.04);
+  position:relative; overflow:hidden;
+}
+.quote-box::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(circle at 30% 20%, rgba(101,175,69,0.08) 0%, transparent 50%);
+  pointer-events:none;
+}
+.quote-box .lbl { font-size:12px; color:var(--gray-500); letter-spacing:3px; margin-bottom:16px; text-transform:uppercase; }
+.quote-box .amt {
+  font-size: 72px;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, #ffffff 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 40px rgba(101,175,69,0.25);
+  letter-spacing: -0.02em;
+}
+.quote-box .amt span {
+  font-size: 24px;
+  opacity: 0.6;
+  margin-right: 8px;
+  -webkit-text-fill-color: rgba(255,255,255,0.6);
+}
+.quote-box .sub {
+  font-size: 16px;
+  color: var(--gray-500);
+  margin-top: 12px;
+  position: relative;
+  z-index: 1;
+}
+.quote-box::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(101,175,69,0.15) 0%, transparent 70%);
+  bottom: -40px;
+  right: 10%;
+  pointer-events: none;
+}
+.quote-notes {
+  margin-top: 28px;
+}
+.quote-notes h4 { margin: 24px 0 10px; font-size: 14px; font-weight: 700; color: var(--black); }
+.quote-notes p,
+.quote-notes ol {
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.8;
+}
+.quote-notes p { margin-bottom: 10px; }
+.quote-notes p:last-child { margin-bottom: 0; }
+.quote-notes ol { padding-left: 20px; }
+.quote-notes li { margin-bottom: 6px; }
+
+/* ===== Team ===== */
+.team-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+.team-card { border:1px solid var(--gray-100); border-radius:20px; overflow:hidden; transition:all .35s cubic-bezier(0.4,0,0.2,1); text-align:center; background:var(--white); display:flex; flex-direction:column; }
+.team-card:hover { border-color:rgba(101,175,69,0.3); box-shadow:0 16px 48px rgba(101,175,69,0.12); transform:translateY(-6px); }
+.team-photo { height:220px; background:#fff; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.team-photo img { width:160px; height:160px; object-fit:cover; border-radius:50%; border:3px solid var(--gray-100); transition:transform .4s cubic-bezier(0.4,0,0.2,1); }
+.team-card:hover .team-photo img { transform:scale(1.08); }
+.team-photo .ph { width:64px; height:64px; border-radius:50%; background:var(--primary); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; }
+.team-photo .photo-upload-hint {
+  position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.5); color:#fff; font-size:13px; font-weight:600;
+}
+body.edit-mode .team-photo:hover .photo-upload-hint { display:flex; }
+.team-info { padding:20px; display:flex; flex-direction:column; flex:1; }
+.team-info h4 { font-size:15px; font-weight:600; margin-bottom:2px; }
+.team-info h4 span { font-weight:400; opacity:0.5; }
+.team-info .role { font-size:12px; color:var(--primary); margin-bottom:4px; }
+.team-info .edu { font-size:12px; color:var(--gray-500); margin-bottom:8px; line-height:1.5; }
+.team-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; margin-bottom:12px; justify-content:center; }
+.team-tags span { padding:3px 10px; background:var(--primary-bg-light); color:var(--primary); border-radius:100px; font-size:11px; }
+.team-toggle { margin-top:auto; padding:4px 0; background:none; border:none; color:var(--primary); font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; }
+.team-toggle:hover { color:var(--primary-light); }
+.team-detail { display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--gray-100); animation:fadeIn .3s; text-align:left; }
+.team-detail.open { display:block; }
+.team-detail p { font-size:12px; color:var(--gray-700); line-height:1.7; margin-bottom:8px; }
+.team-detail p strong { color:var(--primary); font-weight:600; }
+.team-detail p:last-child { margin-bottom:0; }
+
+/* ===== Edit Forms ===== */
+.edit-form {
+  display: none;
+  margin-top: 28px;
+  padding: 32px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+}
+body.edit-mode .edit-form { display: block; }
+body.edit-mode .edit-badge { display: block; }
+.edit-form h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--gray-200, #e5e5e8);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--gray-50, #fafafa);
+  transition: all .2s ease;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(101, 175, 69, 0.12);
+}
+.form-group textarea { min-height: 120px; resize: vertical; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-actions { display: flex; gap: 10px; margin-top: 24px; }
+.form-actions button {
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-700);
+  transition: all .2s;
+}
+.form-actions button:hover {
+  border-color: var(--gray-400);
+  color: var(--black);
+  background: var(--gray-50);
+}
+.form-actions button.save {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  box-shadow: 0 4px 14px rgba(101, 175, 69, 0.3);
+}
+.form-actions button.save:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+  transform: translateY(-1px);
+}
+.case-form-item,
+.expert-form-item {
+  padding: 24px;
+  background: var(--gray-50, #fafafa);
+  border: 1px solid var(--gray-100);
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+.case-form-item h5,
+.expert-form-item h5 { font-size: 14px; font-weight: 700; margin-bottom: 16px; color: var(--black); }
+
+/* ===== Case Overview ===== */
+.case-overview {
+  margin-bottom: 28px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.case-overview-title {
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-700);
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-100);
+}
+.case-overview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.case-overview-table th,
+.case-overview-table td {
+  padding: 12px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-100);
+}
+.case-overview-table th {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--gray-50);
+}
+.case-overview-table tr:last-child td { border-bottom: none; }
+.case-overview-table tr { transition: background 0.15s; cursor: pointer; }
+.case-overview-table tr:hover { background: var(--primary-bg); }
+.case-overview-table td:first-child { width: 80px; color: var(--gray-500); font-weight: 600; }
+.case-overview-table td:last-child { color: var(--gray-700); }
+
+/* ===== Case Cards (Horizontal Scroll) ===== */
+.case-grid {
+  display: flex; gap: 16px;
+  overflow-x: auto;
+  padding: 4px 4px 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--gray-100);
+}
+.case-grid::-webkit-scrollbar { height: 6px; }
+.case-grid::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 3px; }
+.case-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+.case-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  display: flex; flex-direction: column;
+  background: var(--white); border: 1px solid var(--gray-300); border-radius: 16px;
+  overflow: hidden; transition: all .25s;
+  padding: 20px;
+}
+.case-card:hover { border-color: var(--primary-light); box-shadow: 0 8px 32px rgba(101,175,69,0.08); transform: translateY(-2px); }
+.case-cover {
+  position: relative; height: 160px;
+  background: var(--gray-100); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin-bottom: 16px;
+}
+.case-cover img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.case-cover .no-cover {
+  text-align: center; padding: 20px; color: var(--gray-500);
+}
+.case-cover .no-cover .year { font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+.case-cover .no-cover .title { font-size: 15px; font-weight: 700; color: var(--black); line-height: 1.3; }
+.case-info { display: flex; flex-direction: column; flex: 1; }
+.case-info .year-tag {
+  display: inline-block; padding: 3px 10px; background: var(--primary-bg-light); color: var(--primary);
+  border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 10px; width: fit-content;
+}
+.case-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; color: var(--black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.case-info .desc {
+  font-size: 13px; color: var(--gray-700); line-height: 1.6; margin-bottom: 12px;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.case-info .empty-desc { font-size: 12px; color: var(--gray-500); font-style: italic; }
+.case-info .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 14px; margin-top: auto; }
+.case-info .tags span { padding: 3px 10px; background: var(--primary-bg-light); color: var(--primary); border-radius: 100px; font-size: 11px; }
+.case-link { display: inline-block; padding: 6px 14px; background: var(--primary); color: var(--white); border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600; transition: all .2s; width: fit-content; }
+.case-link:hover { background: var(--primary-light); }
+
+.case-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.case-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gray-300);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.case-dot.active {
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+/* ===== Service Matrix ===== */
+.service-matrix { width:100%; border-collapse:collapse; font-size:13px; }
+.service-matrix thead th { background:var(--primary); color:var(--white); padding:14px 16px; text-align:center; font-weight:600; font-size:12px; }
+.service-matrix thead th:first-child { text-align:left; border-radius:16px 0 0 0; }
+.service-matrix thead th:last-child { border-radius:0 16px 0 0; }
+.service-matrix tbody td { padding:12px 16px; text-align:center; border-bottom:1px solid var(--gray-100); color:var(--gray-700); }
+.service-matrix tbody td:first-child { text-align:left; font-weight:600; color:var(--black); }
+.service-matrix tbody tr:last-child td:first-child { border-radius:0 0 0 16px; }
+.service-matrix tbody tr:last-child td:last-child { border-radius:0 0 16px 0; }
+.service-matrix tbody tr:hover td { background:var(--gray-100); }
+
+/* ===== About Section — PPT Style ===== */
+.section-header { margin-bottom:32px; }
+.section-tag { font-size:12px; color:var(--gray-500); display:block; margin-bottom:8px; }
+.section-title { font-size:28px; font-weight:700; line-height:1.3; color:var(--black); }
+
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch; }
+.about-col { display:grid; grid-template-rows:1fr auto; gap:16px; }
+.about-card { padding:24px; background:var(--gray-100); border-radius:12px; }
+.about-card-title { font-size:15px; font-weight:600; color:var(--black); margin-bottom:10px; line-height:1.5; }
+.about-card-text { font-size:13px; color:var(--gray-700); line-height:1.7; }
+
+.data-grid-2x2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; min-height:140px; align-content:center; }
+.data-grid-3col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; min-height:140px; align-content:center; }
+.data-item {
+  text-align:center;
+  padding:22px 16px;
+  background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
+  border:1px solid var(--gray-100);
+  border-radius:14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  transition: all .3s cubic-bezier(0.4,0,0.2,1);
+}
+.data-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(101,175,69,0.1);
+  border-color: rgba(101,175,69,0.2);
+}
+.data-n {
+  font-size:28px;
+  font-weight:700;
+  line-height:1;
+  margin-bottom:6px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.data-l { font-size:12px; color:var(--gray-700); line-height:1.4; font-weight:500; }
+
+.about-logos {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-100);
+}
+.about-logos img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+.about-logos .logo-plus {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-300);
+}
+
+/* ===== Service Matrix — PPT Style (Compact) ===== */
+.matrix-wrap { border:1px solid var(--gray-300); border-radius:10px; overflow:hidden; }
+.service-matrix { width:100%; border-collapse:collapse; font-size:12px; }
+.service-matrix thead th { background:var(--white); color:var(--black); padding:10px 8px; text-align:center; font-weight:600; font-size:11px; border-bottom:2px solid var(--gray-300); }
+.service-matrix thead th:first-child { text-align:left; }
+.service-matrix tbody td { padding:0; text-align:center; border-bottom:1px solid var(--gray-100); color:var(--gray-700); vertical-align:middle; }
+.service-matrix tbody td:first-child { text-align:left; }
+.matrix-row-head { background:#1D1D1F; color:var(--white); padding:10px 12px !important; }
+.matrix-name { font-size:13px; font-weight:600; color:var(--white); margin-bottom:4px; }
+.matrix-desc { font-size:11px; color:var(--gray-500); line-height:1.4; }
+.matrix-dot { font-size:16px; color:var(--black); }
+
+/* ===== Client Grid — PPT Style ===== */
+.client-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.client-box { border:1px solid var(--primary); border-radius:8px; padding:16px; }
+.client-box-title { font-size:12px; font-weight:600; color:var(--primary); background:var(--primary-bg); padding:6px 12px; margin:-16px -16px 12px; border-radius:8px 8px 0 0; }
+.client-box-list { font-size:12px; color:var(--gray-700); line-height:1.8; }
+
+/* ===== IPO Timeline + Coverage ===== */
+.ipo-timeline { border-left:2px solid var(--gray-300); padding-left:16px; }
+.tl-item { display:flex; align-items:center; gap:10px; padding:8px 0; font-size:13px; }
+.tl-year { font-size:11px; font-weight:600; color:var(--primary); min-width:56px; }
+.tl-name { font-weight:600; color:var(--black); flex:1; }
+.tl-tag { font-size:11px; color:var(--gray-500); }
+
+.coverage-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.cv-item { padding:8px 12px; background:var(--gray-100); border-radius:6px; font-size:12px; color:var(--gray-700); text-align:center; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:24px; }
+.timeline::before { content:''; position:absolute; left:6px; top:8px; bottom:8px; width:2px; background:var(--gray-300); }
+.timeline-item { position:relative; padding-bottom:24px; display:flex; gap:16px; align-items:flex-start; }
+.timeline-item:last-child { padding-bottom:0; }
+.timeline-dot { width:14px; height:14px; border-radius:50%; background:var(--primary); border:3px solid var(--white); box-shadow:0 0 0 2px var(--primary); flex-shrink:0; margin-top:2px; position:relative; z-index:1; }
+.timeline-content { flex:1; }
+.timeline-year { font-size:12px; font-weight:600; color:var(--primary); margin-bottom:4px; }
+.timeline-title { font-size:15px; font-weight:600; color:var(--black); margin-bottom:4px; }
+.timeline-desc { font-size:13px; color:var(--gray-700); line-height:1.5; }
+
+/* ===== Contact ===== */
+.contact-grid { display:flex; justify-content:center; align-items:center; gap:24px; flex-wrap:wrap; }
+.contact-item { display:flex; align-items:center; gap:6px; }
+.contact-label { font-size:12px; color:var(--gray-500); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; }
+.contact-value { font-size:18px; font-weight:600; color:var(--black); }
+
+/* ===== Expert Cards (Horizontal Scroll) ===== */
+.expert-scroll {
+  display: flex; gap: 16px;
+  overflow-x: auto;
+  padding: 4px 4px 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--gray-100);
+}
+.expert-scroll::-webkit-scrollbar { height: 6px; }
+.expert-scroll::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 3px; }
+.expert-scroll::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+.expert-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all .25s;
+}
+.expert-card:hover {
+  border-color: var(--primary-light);
+  box-shadow: 0 8px 32px rgba(101,175,69,0.08);
+  transform: translateY(-2px);
+}
+.expert-card .expert-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 16px;
+}
+.expert-card .expert-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700;
+  flex-shrink: 0;
+}
+.expert-card .expert-meta { flex: 1; min-width: 0; }
+.expert-card .expert-name {
+  font-size: 16px; font-weight: 600; color: var(--black);
+  margin-bottom: 2px;
+}
+.expert-card .expert-company {
+  font-size: 13px; color: var(--primary); font-weight: 500;
+  margin-bottom: 2px;
+}
+.expert-card .expert-role {
+  font-size: 12px; color: var(--gray-500);
+}
+.expert-card .expert-bio {
+  font-size: 13px; color: var(--gray-700);
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.expert-card .expert-bio.expanded {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+.expert-card .expert-toggle {
+  margin-top: 10px;
+  padding: 4px 0;
+  background: none; border: none;
+  color: var(--primary);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+}
+.expert-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.expert-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gray-300);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.expert-dot.active {
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+/* ===== Expert Edit Form ===== */
+.expert-form-item {
+  padding: 16px; background: var(--white);
+  border: 1px solid var(--gray-300); border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* ===== Responsive ===== */
+@media(max-width:1024px){
+  .top-nav{padding:0 20px}
+  .top-nav-links{gap:2px}
+  .top-nav-links a{padding:7px 10px;font-size:12px}
+  .hero .hero-inner{grid-template-columns:1fr;gap:56px}
+  .hero h1{font-size:42px}
+  .hero-visual{height:360px;order:-1}
+  .hero-cover{width:150px}
+  .container{max-width:100%;padding:0 40px}
+}
+@media(max-width:768px){
+  .top-nav{height:56px;padding:0 16px}
+  .top-nav-links{display:none}
+  .nav-menu-toggle { display: flex; }
+  .nav-controls { display: none; }
+  body.edit-mode .nav-controls { display: flex; gap: 6px; }
+  body.edit-mode .nav-controls button { padding: 4px 10px; font-size: 11px; }
+  .hero{padding:100px 0 60px}
+  .hero .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero h1{font-size:34px}
+  .hero-visual{order:-1}
+  .hero-visual img { transform: scale(1.05); }
+  .section{padding:60px 0}
+  .container{padding:0 24px}
+  .card-grid,.team-grid{grid-template-columns:1fr}
+  .about-grid,.client-grid{grid-template-columns:1fr}
+  .data-grid-2x2,.data-grid-3col{grid-template-columns:1fr 1fr;gap:8px}
+  .coverage-grid{grid-template-columns:1fr}
+  .stats-row{flex-wrap:wrap}
+  .stat-cell{flex:1 1 50%;border-right:none;border-bottom:1px solid var(--gray-100)}
+  .gantt-header,.gantt-row{grid-template-columns:100px 1fr}
+  .form-row{grid-template-columns:1fr}
+  .expert-card{flex:0 0 280px;padding:20px}
+  .expert-card .expert-avatar{width:48px;height:48px;font-size:18px}
+  .case-card{flex:0 0 280px;padding:16px}
+  .case-cover{height:140px}
+  .edit-form { padding: 24px; }
+}
+@media print{
+  .top-nav{display:none}
+  .main{padding-top:0}
+  .section{padding:40px 0}
+}
+</style>
+</head>
+<body class="preview-mode">
+
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scrollProgress" style="width: 36.0749%;"></div>
+
+<!-- Top Navigation -->
+<nav class="top-nav scrolled" id="topNav">
+  <div class="nav-brand">
+    <img src="pics/iResearch.png" alt="iResearch" style="height:48px;width:auto;display:block;">
+  </div>
+  <ul class="top-nav-links">
+    <li><a href="#hero" class="">封面</a></li>
+    <li><a href="#about">关于艾瑞</a></li>
+    <li><a href="#cases" class="active">研究案例</a></li>
+    <li class="nav-dropdown">
+      <a href="#plan">执行方案 <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:4px;vertical-align:middle;"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+      <ul class="dropdown-menu">
+        <li><a href="#outlineTree">研究大纲</a></li>
+        <li><a href="#expertScroll">专家资源</a></li>
+        <li><a href="#ganttBody">项目时间表</a></li>
+      </ul>
+    </li>
+    <li><a href="#quote">项目报价</a></li>
+    <li><a href="#team">项目团队</a></li>
+    <li><a href="#why">为什么选择艾瑞</a></li>
+  </ul>
+  <button class="nav-menu-toggle" id="navMenuToggle" aria-label="菜单">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-controls">
+    <div class="mode-toggle">
+      <button id="btnPreview" class="active" onclick="setMode('preview')">预览</button>
+      <button id="btnEdit" onclick="setMode('edit')">编辑</button>
+    </div>
+    <div class="mode-actions">
+      <button class="save-icon" onclick="saveToFile()" title="将修改保存到HTML文件">💾</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <img src="pics/iResearch.png" alt="iResearch" style="height:36px;width:auto;display:block;">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="关闭">×</button>
+  </div>
+  <ul class="mobile-nav-links">
+    <li><a href="#hero">封面</a></li>
+    <li><a href="#about">关于艾瑞</a></li>
+    <li><a href="#cases" class="active">研究案例</a></li>
+    <li><a href="#plan">执行方案</a></li>
+    <li class="mobile-sub"><a href="#outlineTree">— 研究大纲</a></li>
+    <li class="mobile-sub"><a href="#expertScroll">— 专家资源</a></li>
+    <li class="mobile-sub"><a href="#ganttBody">— 项目时间表</a></li>
+    <li><a href="#quote">项目报价</a></li>
+    <li><a href="#team">项目团队</a></li>
+    <li><a href="#why">为什么选择艾瑞</a></li>
+  </ul>
+</div>
+<div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+<!-- Main -->
+<main class="main" id="mainContent" style="padding-top: 64px;">
+
+  <!-- Hero -->
+  <section class="hero grid-bg" id="hero">
+    <div class="float-orb hero-orb-1"></div>
+    <div class="float-orb hero-orb-2"></div>
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:32px;">
+          <span class="edit-badge" onclick="editHero()" style="position:static;">编辑封面</span>
+        </div>
+        <h1 id="heroTitle" class="glow"><em>全球跨境支付市场研究方案</em></h1>
+        <p id="heroDesc">敬呈连连数字 — 以独立第三方的专业视角，深度解析跨境支付行业格局与新兴支付力量发展趋势。</p>
+        <div class="hero-meta"><div><strong>项目类型</strong> 行业研究咨询</div><div><strong>提交日期</strong> 2026年5月</div></div>
+      </div>
+      <div class="hero-visual">
+        <img src="pics/casewall.png" alt="艾瑞研究案例">
+      </div>
+    </div>
+    <div class="hero-scroll-hint" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+    </div>
+    <!-- Hero Edit Form -->
+    <div class="container">
+      <div class="edit-form" id="heroForm">
+        <h4>编辑封面信息</h4>
+        <div class="form-group"><label>方案标题</label><input type="text" id="editHeroTitle" value="全球跨境支付市场研究方案"></div>
+        <div class="form-row">
+          <div class="form-group"><label>客户名称</label><input type="text" id="editHeroClient" value="连连数字"></div>
+          <div class="form-group"><label>提交日期</label><input type="text" id="editHeroDate" value="2026年5月"></div>
+        </div>
+        <div class="form-group"><label>方案简介</label><textarea id="editHeroDesc">以独立第三方的专业视角，深度解析跨境支付行业格局与新兴支付力量发展趋势。</textarea></div>
+        <div class="form-actions"><button class="save" onclick="saveHero()">保存</button><button onclick="cancelEdit('heroForm')">取消</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="sec-label reveal">About iResearch</div>
+      <h2 class="sec-title reveal">关于艾瑞咨询</h2>
+
+      <h3 class="reveal" style="font-size:18px;font-weight:600;margin:48px 0 20px;">艾瑞咨询是中国新经济与产业数字化研究咨询领域的领导品牌</h3>
+      <!-- Two Column Data -->
+      <div class="about-grid reveal">
+        <div class="about-col">
+          <div class="about-card reveal" style="transition-delay: 0s;">
+            <div class="about-card-title">携手亚信科技，背靠中国移动等央企股东，打造中国顶级研究咨询品牌</div>
+            <p class="about-card-text">2022年与亚信科技(HK1675)达成全面战略与资本合作，背靠央企股东资源。艾瑞品牌保持独立运营，为客户提供行业研究、数据洞察与战略数字化咨询服务。</p>
+            <div class="about-logos">
+              <img src="pics/asiainfo.jpeg" alt="亚信科技">
+              <span class="logo-plus">×</span>
+              <img src="pics/idigital.png" alt="艾瑞咨询">
+            </div>
+          </div>
+          <div class="data-grid-2x2">
+            <div class="data-item"><div class="data-n">600+</div><div class="data-l">数智化运营团队</div></div>
+            <div class="data-item"><div class="data-n">200+</div><div class="data-l">专业分析师</div></div>
+            <div class="data-item"><div class="data-n">200+</div><div class="data-l">大数据&amp;研发团队</div></div>
+            <div class="data-item"><div class="data-n">150+</div><div class="data-l">咨询顾问</div></div>
+          </div>
+        </div>
+        <div class="about-col">
+          <div class="about-card reveal" style="transition-delay: 0.08s;">
+            <div class="about-card-title">最广泛+最专业的新经济洞察机构</div>
+            <p class="about-card-text">多项能力行业TOP1。自2002年公司创立以来与中国互联网变革共成长，始终作为中国新经济变革浪潮中向市场发声的重要机构。</p>
+          </div>
+          <div class="data-grid-3col">
+            <div class="data-item"><div class="data-n">20+</div><div class="data-l">公司成立年份</div></div>
+            <div class="data-item"><div class="data-n">40+</div><div class="data-l">自研数据产品</div></div>
+            <div class="data-item"><div class="data-n">100+</div><div class="data-l">行业影响力奖项</div></div>
+            <div class="data-item"><div class="data-n">3000+</div><div class="data-l">年度报告发布量</div></div>
+            <div class="data-item"><div class="data-n">20000+</div><div class="data-l">累计研究项目发布量</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Matrix -->
+      <h3 style="font-size:18px;font-weight:600;margin:48px 0 20px;">研究服务矩阵</h3>
+      <div class="matrix-wrap reveal">
+        <table class="service-matrix">
+          <thead>
+            <tr>
+              <th style="width:36%">服务类型</th>
+              <th>市场教育</th>
+              <th>融资上市</th>
+              <th>市值管理</th>
+              <th>新市场进入</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="matrix-row-head">
+                <div class="matrix-name">全球市场调研</div>
+                <div class="matrix-desc">全球范围市场进入，潜在机会点及风险挖掘</div>
+              </td>
+              <td><span class="matrix-dot">●</span></td>
+              <td></td>
+              <td></td>
+              <td><span class="matrix-dot">●</span></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-head">
+                <div class="matrix-name">竞对研究</div>
+                <div class="matrix-desc">了解行业玩家战略布局，组织架构，竞争格局，洞察行业变化</div>
+              </td>
+              <td><span class="matrix-dot">●</span></td>
+              <td><span class="matrix-dot">●</span></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-head">
+                <div class="matrix-name">IPO行业顾问</div>
+                <div class="matrix-desc">出具独立第三方行业报告，供招股书引用，支持公开市场行业定位</div>
+              </td>
+              <td></td>
+              <td><span class="matrix-dot">●</span></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-head">
+                <div class="matrix-name">商业尽职调查</div>
+                <div class="matrix-desc">快速验证交易商业可行性，数据说话</div>
+              </td>
+              <td></td>
+              <td><span class="matrix-dot">●</span></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-head">
+                <div class="matrix-name">合作白皮书/市场地位认证</div>
+                <div class="matrix-desc">通过联名发布、案例植入、创始人专访、地位认证证书等形式传播市场声量</div>
+              </td>
+              <td><span class="matrix-dot">●</span></td>
+              <td></td>
+              <td><span class="matrix-dot">●</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-head">
+                <div class="matrix-name">定制化研究</div>
+                <div class="matrix-desc">根据具体需求制定研究计划</div>
+              </td>
+              <td><span class="matrix-dot">●</span></td>
+              <td><span class="matrix-dot">●</span></td>
+              <td><span class="matrix-dot">●</span></td>
+              <td><span class="matrix-dot">●</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Client Ecosystem -->
+      <h3 style="font-size:18px;font-weight:600;margin:48px 0 20px;">客户生态</h3>
+      <p style="font-size:14px;color:var(--gray-700);margin-bottom:20px;line-height:1.7;">艾瑞已经成为国内外众多买方机构客户了解中国新经济、新基建的重要智力支持机构。作为有影响力的市场教育家，我们跟踪最新的市场趋势，并通过发布的行业报告分析潜在的影响。</p>
+      <div class="client-grid reveal">
+        <div class="client-box reveal" style="transition-delay: 0s;">
+          <div class="client-box-title">国内外一线VC/PE/主权基金</div>
+          <div class="client-box-list">
+            软银 · 厚朴投资 · 淡马锡 · Coatue · CMC · 复星 · 华平投资 · 启明创投 · 老虎基金 · 春华资本 · 高盛直投 · 银湖资本 · 摩根斯坦利直投 · 中民投 · 南非报业投资基金 · 中国互联网投资基金 · GIC · 策源创投
+          </div>
+        </div>
+        <div class="client-box reveal" style="transition-delay: 0.08s;">
+          <div class="client-box-title">国内外顶级投资银行</div>
+          <div class="client-box-list">
+            Goldman Sachs · Citigroup · Morgan Stanley · BoA Merrill Lynch · JP Morgan · HSBC · UBS · 光银国际 · Deutsche Bank · 招银国际 · Macquarie · 中金公司 · Jefferies · 中信证券 · CLSA · 创升
+          </div>
+        </div>
+        <div class="client-box reveal" style="transition-delay: 0.16s;">
+          <div class="client-box-title">互联网与科技行业头部企业</div>
+          <div class="client-box-list">
+            百度 · 微软 · 腾讯 · 苹果 · 阿里 · Bloomberg · 华为 · 索尼 · 平安 · 惠普 · 小米 · 新浪 · 京东 · 爱奇艺 · 今日头条 · 快手 · 美团 · 商汤科技
+          </div>
+        </div>
+        <div class="client-box reveal" style="transition-delay: 0.24s;">
+          <div class="client-box-title">国内外二级市场明星投资机构</div>
+          <div class="client-box-list">
+            安联保险 · 东方资管 · 太平洋证券 · 惠理集团 · 高华证券 · 信达投资
+          </div>
+        </div>
+      </div>
+
+      <!-- IPO + Coverage Combined -->
+      <h3 style="font-size:18px;font-weight:600;margin:48px 0 20px;">坚持前瞻性研究，艾瑞十余年陪伴高潜力新经济客户快速成长，助力客户走向资本市场</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+        <!-- Coverage -->
+        <div>
+          <h4 style="font-size:15px;font-weight:600;color:var(--primary);margin-bottom:16px;">新经济商业版图</h4>
+          <div class="coverage-grid">
+            <div class="cv-item">运输与物流</div>
+            <div class="cv-item">营销科技和跨境广告</div>
+            <div class="cv-item">娱乐和社交网络</div>
+            <div class="cv-item">零售和消费升级</div>
+            <div class="cv-item">电子商务</div>
+            <div class="cv-item">金融</div>
+            <div class="cv-item">医疗保健</div>
+            <div class="cv-item">高科技</div>
+            <div class="cv-item">先进制造</div>
+            <div class="cv-item">教育</div>
+            <div class="cv-item">清洁能源</div>
+            <div class="cv-item">亚文化群体</div>
+          </div>
+        </div>
+        <!-- IPO Timeline -->
+        <div>
+          <h4 style="font-size:15px;font-weight:600;color:var(--primary);margin-bottom:16px;">IPO成功案例</h4>
+          <div class="ipo-timeline">
+            <div class="tl-item"><span class="tl-year">2014/2020</span><span class="tl-name">京东</span><span class="tl-tag">美股/港股</span></div>
+            <div class="tl-item"><span class="tl-year">2018</span><span class="tl-name">美团</span><span class="tl-tag">港股</span></div>
+            <div class="tl-item"><span class="tl-year">2019</span><span class="tl-name">老虎证券</span><span class="tl-tag">美股</span></div>
+            <div class="tl-item"><span class="tl-year">2019-20</span><span class="tl-name">快手</span><span class="tl-tag">港股</span></div>
+            <div class="tl-item"><span class="tl-year">2020</span><span class="tl-name">360数科</span><span class="tl-tag">港股</span></div>
+            <div class="tl-item"><span class="tl-year">2020</span><span class="tl-name">蚂蚁金服</span><span class="tl-tag">港股</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Cases -->
+  <section class="section" id="cases">
+    <div class="container">
+      <div class="sec-label reveal visible">Case Studies</div>
+      <div class="reveal visible" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;">
+        <h2 class="sec-title" style="margin:0;">研究案例</h2>
+        <span class="edit-badge" onclick="editCases()" style="position:static;">编辑案例</span>
+      </div>
+      <p class="sec-desc" id="casesDesc">艾瑞团队对金融及支付相关行业的关注和研究由来已久，已经成为该领域最为人所知的研究机构之一。</p>
+
+      <div class="case-overview reveal" id="caseOverview"></div>
+
+      <div id="casePanels" class="case-grid reveal visible">
+    <div class="case-card reveal visible" data-case-index="0" style="transition-delay: 0s;">
+      <div class="case-cover">
+        <img src="https://pic.iresearch.cn/rimgs/4772/1.jpg" alt="2025年中国AI+互联网媒体行业研究报告">
+      </div>
+      <div class="case-info">
+        <div class="year-tag">2025</div>
+        <h3 title="2025年中国AI+互联网媒体行业研究报告">2025年中国AI+互联网媒体行业研究报告</h3>
+        <p class="desc">本报告聚焦AI技术在互联网媒体内容生态中的应用，深入分析AIGC内容生产、智能推荐算法演进及内容平台商业模式创新，为行业从业者提供前瞻性洞察。</p>
+        <div class="tags"><span>AI互联网媒体内容生态</span></div>
+        <a href="https://www.iresearch.com.cn/Detail/report?id=4772&amp;isfree=0" target="_blank" rel="noopener" class="case-link">查看报告 →</a>
+      </div>
+    </div>
+  
+    <div class="case-card reveal visible" data-case-index="1" style="transition-delay: 0.08s;">
+      <div class="case-cover">
+        <img src="https://pic.iresearch.cn/rimgs/4825/1.jpg" alt="2026年中国跨境电商SaaS市场行业报告">
+      </div>
+      <div class="case-info">
+        <div class="year-tag">2025</div>
+        <h3 title="2026年中国跨境电商SaaS市场行业报告">2026年中国跨境电商SaaS市场行业报告</h3>
+        <p class="desc">中国商品出口贸易整体保持增长，中国跨境电商出口持续保持高速增长态势，成为拉动出口结构优化和外贸高质量发展的关键力量。当前中国出海卖家面临着地缘政治、贸易政策摇摆、电商平台多元化竞争、创新技术加速应用等市场变化。跨境电商SaaS服务商以全链路数字化工具，解决出海卖家运营难题，ERP系统位于跨境电商SaaS系统的核心位置，承担出海卖家“经营大脑”的角色。本文重点梳理跨境电商ERP SaaS行业发展情况，阐述其如何通过卓越的产品与服务能力为不同类型的出海卖家提供价值。</p>
+        <div class="tags"><span>跨境电商</span><span>SaaS</span></div>
+        <a href="https://www.iresearch.com.cn/Detail/report?id=4825&amp;isfree=0" target="_blank" rel="noopener" class="case-link">查看报告 →</a>
+      </div>
+    </div>
+  
+    <div class="case-card reveal visible" data-case-index="2" style="transition-delay: 0.16s;">
+      <div class="case-cover">
+        <img src="https://pic.iresearch.cn/rimgs/4824/1.jpg" alt="2026年跨境电商韩国市场机遇洞察白皮书">
+      </div>
+      <div class="case-info">
+        <div class="year-tag">2025</div>
+        <h3 title="2026年跨境电商韩国市场机遇洞察白皮书">2026年跨境电商韩国市场机遇洞察白皮书</h3>
+        <p class="desc">全球经济承压，贸易摩擦反复，市场多元化已成企业出海必选题。韩国作为发达经济体中的市场盲区，电商成熟度高、消费力强、营商环境稳定且竞争格局尚未饱和，具备极高的商业价值。本报告深入剖析韩国电商市场现状，解读其独特的消费者特征与平台生态，系统性地为不同类型的中国卖家提供了从品类机遇、渠道布局、履约模式到合规税务的全链路策略指引。</p>
+        <div class="tags"><span>跨境电商，韩国市场</span></div>
+        <a href="https://www.iresearch.com.cn/Detail/report?id=4824&amp;isfree=0" target="_blank" rel="noopener" class="case-link">查看报告 →</a>
+      </div>
+    </div>
+  
+    <div class="case-card reveal" data-case-index="3" style="transition-delay: 0.24s;">
+      <div class="case-cover">
+        <img src="https://pic.iresearch.cn/rimgs/4780/1.jpg" alt="2025年中国第三方支付行业研究报告">
+      </div>
+      <div class="case-info">
+        <div class="year-tag">2025</div>
+        <h3 title="2025年中国第三方支付行业研究报告">2025年中国第三方支付行业研究报告</h3>
+        <p class="empty-desc">暂无简介，请点击"编辑案例"添加</p>
+        <div class="tags"><span>第三方支付</span></div>
+        <a href="https://www.iresearch.com.cn/Detail/report?id=4780&amp;isfree=0" target="_blank" rel="noopener" class="case-link">查看报告 →</a>
+      </div>
+    </div>
+  </div>
+      <div class="case-dots reveal" style="display: flex;" id="caseDots"><span class="case-dot" data-dot-index="0" onclick="scrollToCase(0)"></span><span class="case-dot active" data-dot-index="1" onclick="scrollToCase(1)"></span><span class="case-dot" data-dot-index="2" onclick="scrollToCase(2)"></span><span class="case-dot" data-dot-index="3" onclick="scrollToCase(3)"></span></div>
+    </div>
+    <!-- Cases Edit Form -->
+    <div class="container">
+      <div class="edit-form" id="casesForm">
+        <h4>编辑研究案例</h4>
+        <div class="form-group">
+          <label>板块描述</label>
+          <textarea id="editCasesDesc" rows="3" placeholder="输入研究案例板块的描述文字，其中行业名称可根据客户调整"></textarea>
+        </div>
+
+        <div id="caseFormsContainer"></div>
+        <div class="form-actions">
+          <button class="save" onclick="saveCases()">保存</button>
+          <button onclick="addCaseForm()">+ 添加案例</button>
+          <button onclick="cancelEdit('casesForm')">取消</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plan -->
+  <section class="section" id="plan">
+    <div class="container">
+      <div class="sec-label reveal">Execution Plan</div>
+      <h2 class="sec-title reveal">执行方案</h2>
+      <p class="sec-desc reveal" id="planDesc">以下为项目执行计划，具体研究内容、周期及交付形式可根据实际业务需求灵活调整。</p>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:48px 0 20px;">
+        <h3 style="font-size:18px;font-weight:600;margin:0;">研究大纲</h3>
+        <span class="edit-badge" onclick="editOutline()" style="position:static;">编辑大纲</span>
+      </div>
+      <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">注：执行大纲可能以客户业务访谈的结果作出进一步调整后最终确定</p>
+      <div class="outline-tree" id="outlineTree">
+    <div class="outline-chapter open" data-idx="0">
+      <div class="outline-header" onclick="toggleOutline(0)">
+        <div class="ch-num">1</div>
+        <div class="ch-title">全球与中国跨境贸易及电商市场概览</div>
+        <div class="ch-toggle">▾</div>
+      </div>
+      <div class="outline-body">
+        
+          <div class="outline-section">
+            <div class="sec-num">1.1</div>
+            <div class="sec-name">全球跨境贸易</div>
+            <ul><li>2021-2030e全球跨境贸易总额及增速，以及B2B/B2C、服贸/商贸等细分市场发展趋势分析（艾瑞咨询独立核算）</li><li>全球主要贸易区域（北美、欧洲、亚太、拉美等）贸易流向与份额变化分析</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">1.2</div>
+            <div class="sec-name">中国跨境贸易</div>
+            <ul><li>2021-2030e中国进出口贸易总额及全球份额变化，以及B2B/B2C、服贸/商贸等细分市场发展趋势分析（艾瑞咨询独立核算）</li><li>中国进出口贸易结构拆解，及与主要地区和新兴市场的贸易增长情况</li><li>中国出海企业市场规模，以及发展趋势分析（艾瑞咨询独立核算）</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">1.3</div>
+            <div class="sec-name">全球跨境电商市场</div>
+            <ul><li>2021-2030e全球跨境电商交易总额（B2B、B2C、C2C）及增速，以及跨境电商在贸易总额中的渗透率分析（艾瑞咨询独立核算）</li><li>全球跨境电商B2B市场趋势详解（高增速，高度分散）</li><li>主要区域及东南亚、拉美、中东等新兴市场跨境电商发展趋势分析</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">1.4</div>
+            <div class="sec-name">中国跨境电商市场</div>
+            <ul><li>2021-2030e中国跨境电商交易总额及全球份额变化（艾瑞咨询独立核算）</li><li>中国跨境电商进出口结构及驱动力分析</li></ul>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="outline-chapter " data-idx="1">
+      <div class="outline-header" onclick="toggleOutline(1)">
+        <div class="ch-num">2</div>
+        <div class="ch-title">新兴支付力量研究——Web3</div>
+        <div class="ch-toggle">▾</div>
+      </div>
+      <div class="outline-body">
+        
+          <div class="outline-section">
+            <div class="sec-num">2.1</div>
+            <div class="sec-name">全球Web3跨境支付市场概览</div>
+            <ul><li>按支付媒介及资产类型的划分：原生加密货币、稳定币、代币化法币（如央行数字货币）</li><li>当前全球Web3跨境支付流通环节的划分：入金兑换、流转交易、跨境结算、出金提现</li><li>重要流通环节发展分析：其中流转交易环节性能显著提升，稳定币成为主力，各类跨链协议规模化，交易所平台合规化</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">2.2</div>
+            <div class="sec-name">全球稳定币支付市场分析</div>
+            <ul><li>2021-2025全球稳定币年度交易结算总额，对比传统支付网络规模（艾瑞咨询独立核算）</li><li>稳定币支付在全球贸易总额及跨境电商交易中的渗透率分析</li><li>稳定币跨境支付的核心应用场景分析，包括B2B贸易结算、供应链金融、跨境汇款等</li><li>稳定币的核心价值与优势分析，如降低交易成本、提升结算速度、增强透明度等</li><li>主要海外市场（北美、欧洲、东南亚、非洲等）的监管环境、发展特点与采用率分析</li><li>2026-2030e全球稳定币交易规模及渗透率预测（艾瑞咨询独立核算）</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">2.3</div>
+            <div class="sec-name">数字人民币（e-CNY）的跨境应用分析</div>
+            <ul><li>数字人民币跨境贸易结算试点进展，包括试点项目、参与国家/地区、合作机构、交易规模等</li><li>多边央行数字货币桥（mBridge）项目进展，包括参与方、应用案例、实际价值等</li><li>数字人民币的战略价值分析，如促进人民币国际化、提升中国跨境支付效率、构建多元化支付体系等</li><li>2026-2030e数字人民币跨境贸易潜在交易规模及渗透率预测（艾瑞咨询独立核算）</li></ul>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="outline-chapter " data-idx="2">
+      <div class="outline-header" onclick="toggleOutline(2)">
+        <div class="ch-num">3</div>
+        <div class="ch-title">新兴技术分析——人工智能（AI）在跨境贸易中的应用</div>
+        <div class="ch-toggle">▾</div>
+      </div>
+      <div class="outline-body">
+        
+          <div class="outline-section">
+            <div class="sec-num">3.1</div>
+            <div class="sec-name">全球AI应用市场概览</div>
+            <ul><li>2021-2030e全球AI市场支出规模及增长趋势分析（艾瑞咨询独立核算）</li><li>AI技术在各行业的应用场景梳理</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">3.2</div>
+            <div class="sec-name">AI技术在跨境贸易领域的应用场景与市场机会评估</div>
+            <ul><li>AI技术在贸易营销与客户运营、订单与履约自动化、供应链与财务管理、跨境支付场景的具体分析</li><li>AI技术在跨境支付领域的具体应用场景分析：智能反欺诈与合规风控（AML/KYC）、动态汇率定价与成本优化、交易路径优化、自动化对账与清算、智能客服等</li><li>各主要应用场景的市场增长潜力评估</li><li>主要业务形态和收入模式分析，例如跨境支付垂类大模型及Agent及Token分发平台模式</li><li>AI技术对跨境支付供应商的价值分析</li><li>AI技术在跨境支付领域的发展趋势分析</li></ul>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="outline-chapter " data-idx="3">
+      <div class="outline-header" onclick="toggleOutline(3)">
+        <div class="ch-num">4</div>
+        <div class="ch-title">全球跨境支付市场竞争格局与趋势分析</div>
+        <div class="ch-toggle">▾</div>
+      </div>
+      <div class="outline-body">
+        
+          <div class="outline-section">
+            <div class="sec-num">4.1</div>
+            <div class="sec-name">全球跨境支付市场参与者图谱</div>
+            <ul><li>传统金融机构：SWIFT、大型跨国银行等</li><li>新兴金融科技公司及第三方支付公司：Stripe、Adyen、PayPal、连连、移卡、PingPong、空中云汇、Payoneer等</li><li>稳定币发行方与区块链网络：Circle（USDC）、Tether（USDT）及其他公链生态</li><li>布局支付领域的科技巨头：蚂蚁、腾讯、Amazon等生态下的跨境支付品牌</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">4.2</div>
+            <div class="sec-name">全球跨境支付市场现状与竞争态势</div>
+            <ul><li>主要市场参与者在新兴支付技术领域的战略布局、投资与最新动态梳理</li><li>不同市场参与者的竞争优劣势分析</li><li>2021-2030e全球跨境支付及其细分市场交易规模（艾瑞咨询独立核算）</li><li>连连领先性分析：中国最大的独立的跨境支付解决方案提供商</li><li>连连的新商业版图分析（待实际执行研究并与公司商议后确定）</li></ul>
+          </div>
+        
+          <div class="outline-section">
+            <div class="sec-num">4.3</div>
+            <div class="sec-name">全球跨境支付市场发展趋势</div>
+            <ul><li>传统机构与新兴力量的竞合关系</li><li>AI与区块链、数字货币等技术的融合创新趋势</li><li>中国支付企业的全球化扩张机遇</li></ul>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+      <!-- Outline Edit Form -->
+      <div class="edit-form" id="outlineForm" style="margin-top:24px;">
+        <h4>编辑研究大纲</h4>
+        <p style="font-size:12px;color:var(--gray-500);margin-bottom:16px;">按格式输入，系统自动解析章节结构。<br>第一行=章节，缩进2格=小节，缩进4格=要点。</p>
+        <div class="form-group">
+          <label>大纲内容</label>
+          <textarea id="editOutline" rows="16" placeholder="1 全球与中国跨境贸易及电商市场概览
+  1.1 全球跨境贸易
+    2021-2030e全球跨境贸易总额及增速...
+    全球主要贸易区域...
+  1.2 中国跨境贸易
+    2021-2030e中国进出口贸易总额...
+2 新兴支付力量研究——Web3
+  2.1 全球Web3跨境支付市场概览
+    按支付媒介及资产类型的划分..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="save" onclick="saveOutline()">保存</button>
+          <button onclick="previewOutline()">预览</button>
+          <button onclick="cancelEdit('outlineForm')">取消</button>
+        </div>
+      </div>
+
+      <!-- Expert Resources -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:64px 0 20px;">
+        <h3 style="font-size:18px;font-weight:600;margin:0;">专家资源</h3>
+        <span class="edit-badge" onclick="editExperts()" style="position:static;">编辑专家</span>
+      </div>
+      <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">以下为项目可触达的外部专家资源，可根据研究方向灵活调配</p>
+      <div class="expert-scroll reveal" id="expertScroll"><div class="expert-card reveal" data-expert-index="0" style="transition-delay: 0s;"><div class="expert-header"><div class="expert-avatar">专</div><div class="expert-meta"><div class="expert-name">专家A</div><div class="expert-company">连连数字</div><div class="expert-role">跨境支付业务负责人</div></div></div><div class="expert-bio" id="expertBio-0">10年跨境支付行业经验，曾主导多项跨境支付产品创新，对B2B贸易结算、跨境电商支付有深度理解。</div></div><div class="expert-card reveal" data-expert-index="1" style="transition-delay: 0.08s;"><div class="expert-header"><div class="expert-avatar">专</div><div class="expert-meta"><div class="expert-name">专家B</div><div class="expert-company">蚂蚁集团</div><div class="expert-role">国际业务战略总监</div></div></div><div class="expert-bio" id="expertBio-1">深耕东南亚、欧洲等海外市场多年，对全球支付监管政策及本地化运营有丰富经验。</div></div><div class="expert-card reveal" data-expert-index="2" style="transition-delay: 0.16s;"><div class="expert-header"><div class="expert-avatar">专</div><div class="expert-meta"><div class="expert-name">专家C</div><div class="expert-company">Stripe</div><div class="expert-role">亚太区合作伙伴总监</div></div></div><div class="expert-bio" id="expertBio-2">专注全球支付基础设施与开发者生态建设，对API-first支付解决方案有独特见解。</div></div></div>
+      <div class="expert-dots reveal" style="display: flex;" id="expertDots"><span class="expert-dot" data-dot-index="0" onclick="scrollToExpert(0)"></span><span class="expert-dot active" data-dot-index="1" onclick="scrollToExpert(1)"></span><span class="expert-dot" data-dot-index="2" onclick="scrollToExpert(2)"></span></div>
+
+      <!-- Expert Edit Form -->
+      <div class="edit-form" id="expertsForm" style="margin-top:24px;">
+        <h4>编辑专家资源</h4>
+        <p style="font-size:12px;color:var(--gray-500);margin-bottom:16px;">📋 快速添加：粘贴专家信息，系统自动识别<br>格式：专家代号 | 公司 | 职位<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;背景经历（换行分隔多位专家）</p>
+        <div class="form-group">
+          <label>快速导入</label>
+          <textarea id="quickExpertInput" rows="6" placeholder="专家A | 连连数字 | 跨境支付业务负责人
+10年跨境支付行业经验，曾主导多项跨境支付产品创新...
+
+专家B | 蚂蚁集团 | 国际业务战略总监
+深耕东南亚、欧洲等海外市场多年，对全球支付监管政策有丰富经验..."></textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+          <button type="button" onclick="submitQuickExperts()" style="padding:8px 16px;background:var(--primary);color:var(--white);border:none;border-radius:6px;font-size:13px;cursor:pointer;">识别并添加</button>
+          <button type="button" onclick="addExpertFormManual()" style="padding:8px 16px;background:transparent;color:var(--gray-500);border:1px solid var(--gray-300);border-radius:6px;font-size:13px;cursor:pointer;">手动添加</button>
+        </div>
+        <h5 style="margin:16px 0 8px;font-size:14px;font-weight:600;color:var(--gray-700);">专家列表</h5>
+        <div id="expertFormsContainer"></div>
+        <div class="form-actions">
+          <button class="save" onclick="saveExperts()">保存</button>
+          <button onclick="cancelEdit('expertsForm')">取消</button>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:64px 0 20px;">
+        <h3 style="font-size:18px;font-weight:600;margin:0;">项目时间表</h3>
+        <span class="edit-badge" onclick="editPlan()" style="position:static;">编辑时间表</span>
+      </div>
+      <p class="gantt-drag-hint">💡 编辑模式下，可拖拽时间条调整任务起止时间</p>
+      <div class="gantt">
+        <div class="gantt-header"><span>任务</span><span id="ganttHeaderLabel">时间轴（8周）</span></div>
+        <div id="ganttBody"><div class="gantt-row "><div class="task-name">项目启动<span>第1周</span></div><div class="gantt-track"><div class="gantt-block bar" style="left:0%;width:12%" data-idx="0" data-start="0" data-width="12"></div></div></div><div class="gantt-row "><div class="task-name">案头研究<span>第2-3周</span></div><div class="gantt-track"><div class="gantt-block bar" style="left:8%;width:25%" data-idx="1" data-start="8" data-width="25"></div></div></div><div class="gantt-row milestone"><div class="task-name">业务访谈<span>第3-4周</span></div><div class="gantt-track"><div class="gantt-block milestone" style="left:25%;width:0%" data-idx="2" data-start="25" data-width="0"></div></div></div><div class="gantt-row "><div class="task-name">外部调研<span>第4-5周</span></div><div class="gantt-track"><div class="gantt-block bar" style="left:37%;width:20%" data-idx="3" data-start="37" data-width="20"></div></div></div><div class="gantt-row "><div class="task-name">报告撰写<span>第5-6周</span></div><div class="gantt-track"><div class="gantt-block bar" style="left:50%;width:25%" data-idx="4" data-start="50" data-width="25"></div></div></div><div class="gantt-row milestone"><div class="task-name">进度汇报<span>第6周末</span></div><div class="gantt-track"><div class="gantt-block milestone" style="left:62%;width:0%" data-idx="5" data-start="62" data-width="0"></div></div></div><div class="gantt-row "><div class="task-name">修改完善<span>第7周</span></div><div class="gantt-track"><div class="gantt-block bar" style="left:75%;width:12%" data-idx="6" data-start="75" data-width="12"></div></div></div><div class="gantt-row milestone"><div class="task-name">定稿发布<span>第8周</span></div><div class="gantt-track"><div class="gantt-block milestone" style="left:88%;width:0%" data-idx="7" data-start="88" data-width="0"></div></div></div></div>
+        <div class="gantt-labels" id="ganttLabels"><div></div><div class="gantt-labels-inner"><span>第1周</span><span>第2周</span><span>第3周</span><span>第4周</span><span>第5周</span><span>第6周</span><span>第7周</span><span>第8周</span></div></div>
+      </div>
+    </div>
+    <!-- Plan Edit Form -->
+    <div class="container">
+      <div class="edit-form" id="planForm">
+        <h4>编辑时间表</h4>
+        <div class="form-group">
+          <label>时间轴标签（逗号分隔）</label>
+          <input type="text" id="editScheduleLabels" placeholder="第1周,第2周,第3周...">
+        </div>
+        <p style="font-size:12px;color:var(--gray-500);margin-bottom:12px;">💡 直接在甘特图上拖拽调整任务位置和时长</p>
+        <h5 style="margin:16px 0 8px;font-size:14px;font-weight:600;color:var(--gray-700);">任务</h5>
+        <div id="scheduleFormsContainer"></div>
+        <div class="form-actions">
+          <button class="save" onclick="savePlan()">保存</button>
+          <button onclick="addScheduleTask()">+ 添加任务</button>
+          <button onclick="cancelEdit('planForm')">取消</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="section" id="quote">
+    <div class="container">
+      <div class="sec-label reveal">Investment</div>
+      <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;">
+        <h2 class="sec-title" style="margin:0;">项目报价</h2>
+        <span class="edit-badge" onclick="editQuote()" style="position:static;">编辑报价</span>
+      </div>
+      <div class="quote-box reveal" id="quoteBox"><div class="amt"><span>RMB</span>250,000</div><div class="sub">人民币贰拾伍万元整</div></div>
+      <div class="quote-notes reveal">
+        <p>以上整体报价已包含全部咨询费用、艾瑞内部数据库使用费用、差旅费和增值税。</p>
+        <p>项目价格基于本建议书约定的内容和范围，如需变更项目范围，需另行协商和调整项目费用。</p>
+        <h4 style="margin:20px 0 10px;font-size:14px;font-weight:700;color:var(--black);">支付方式</h4>
+        <ol style="padding-left:20px;font-size:14px;color:var(--gray-700);line-height:1.8;">
+          <li>项目合同签署和开始履行后15个工作日内支付50%</li>
+          <li>项目终稿报告提交后15个工作日内支付50%</li>
+        </ol>
+      </div>
+    </div>
+    <!-- Quote Edit Form -->
+    <div class="container">
+      <div class="edit-form" id="quoteForm">
+        <h4>编辑项目报价</h4>
+        <div class="form-row">
+          <div class="form-group"><label>币种</label><input type="text" id="editQuoteCode" value="RMB"></div>
+          <div class="form-group"><label>金额</label><input type="text" id="editQuoteAmount" value="250,000" oninput="updateQuoteCurrency()"></div>
+        </div>
+        <div class="form-group"><label>大写（自动生成）</label><input type="text" id="editQuoteCurrency" value="贰拾伍万元整" readonly="" style="background:var(--gray-100);color:var(--gray-500);"></div>
+        <div class="form-actions"><button class="save" onclick="saveQuote()">保存</button><button onclick="cancelEdit('quoteForm')">取消</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section" id="team">
+    <div class="container">
+      <div class="sec-label reveal">Team</div>
+      <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;">
+        <h2 class="sec-title" style="margin:0;">项目团队</h2>
+        <span class="edit-badge" onclick="editTeam()" style="position:static;">编辑团队</span>
+      </div>
+      <p class="sec-desc" id="teamDesc">项目总监负责总体规划与关键结论校验；项目经理负责总体执行与交付质量把控；研究团队负责各模块执行与报告撰写</p>
+      <div class="team-grid reveal" id="teamGrid"><div class="team-card reveal" id="teamCard-0" style="transition-delay: 0s;"><div class="team-photo"><img src="pics/赵坤.png" alt="赵坤" onerror="this.outerHTML='&lt;div class='ph'&gt;赵&lt;/div&gt;'"><div class="photo-upload-hint" onclick="event.stopPropagation();uploadTeamPhoto(0)">更换照片</div></div><div class="team-info"><h4>赵坤<span>Castle Zhao</span></h4><div class="role">首席分析师</div><div class="edu">中国社会科学院金融研究所</div><div class="team-tags"><span>君子不器</span><span>研究合理性</span><span>投资有效性</span></div><button class="team-toggle" onclick="toggleTeamDetail(0)">查看详细背景 ↓</button><div class="team-detail" id="teamDetail-0"><p><strong>背景</strong> 艾瑞咨询投资研究部首席分析师。主要参与金融、TMT、消费、跨境、供应链、企业服务、文娱等领域的投融资研究服务；作为项目执行者，负责调研方案设立，项目进度及研究成果把控。</p><p><strong>经历</strong> 在加入艾瑞之前，先后就职于多家券商研究所，并曾参与上市公司海外市场并购项目，覆盖二级市场上市标的长达8年，其中港股、美股市场曾覆盖复星集团、安踏国际、波司登、海底捞、呷哺呷哺等。</p></div></div></div><div class="team-card reveal" id="teamCard-1" style="transition-delay: 0.08s;"><div class="team-photo"><img src="pics/钱奇.png" alt="钱奇" onerror="this.outerHTML='&lt;div class='ph'&gt;钱&lt;/div&gt;'"><div class="photo-upload-hint" onclick="event.stopPropagation();uploadTeamPhoto(1)">更换照片</div></div><div class="team-info"><h4>钱奇<span>Shawn</span></h4><div class="role">研究总监</div><div class="edu">上海外国语大学、罗彻斯特大学</div><div class="team-tags"><span>财务分析</span><span>跨境研究</span><span>tech-savvy</span></div><button class="team-toggle" onclick="toggleTeamDetail(1)">查看详细背景 ↓</button><div class="team-detail" id="teamDetail-1"><p><strong>背景</strong> 艾瑞咨询投融资研究服务部研究总监。主要参与互联网、金融、人工智能、消费等在内的IPO行业顾问、商业尽调、市场战略咨询等研究服务。曾参与多家互联网金融、新零售的IPO行业研究项目并通过美国AICPA考试认证。</p><p><strong>经历</strong> 在加入艾瑞之前，主要从事投资研究工作，专业经验包括安永财务交易咨询部、民生证券研究所、国金证券投行部。</p></div></div></div><div class="team-card reveal" id="teamCard-2" style="transition-delay: 0.16s;"><div class="team-photo"><img src="pics/jenny.png" alt="刘懿婧" onerror="this.outerHTML='&lt;div class='ph'&gt;刘&lt;/div&gt;'"><div class="photo-upload-hint" onclick="event.stopPropagation();uploadTeamPhoto(2)">更换照片</div></div><div class="team-info"><h4>刘懿婧<span>Jenny</span></h4><div class="role">高级咨询经理</div><div class="edu">新加坡国立大学、复旦大学</div><div class="team-tags"><span>数据洞察</span><span>思辨力</span><span>责任心</span></div><button class="team-toggle" onclick="toggleTeamDetail(2)">查看详细背景 ↓</button><div class="team-detail" id="teamDetail-2"><p><strong>背景</strong> 艾瑞咨询投融资咨询服务部高级咨询经理。主要参与金融、企服、科技、消费、物流等领域的投融资研究；作为项目执行者，负责调研访谈、二手资料整理、模型测算、行业研究报告撰写。</p><p><strong>经历</strong> 在加入艾瑞之前，主要从事战略咨询与数据分析工作，专业经验包括毕马威咨询服务部、海通证券机构业务部、汇丰银行财富管理部等。</p></div></div></div><div class="team-card reveal" id="teamCard-3" style="transition-delay: 0.24s;"><div class="team-photo"><img src="pics/yuhan.png" alt="林钰涵" onerror="this.outerHTML='&lt;div class='ph'&gt;林&lt;/div&gt;'"><div class="photo-upload-hint" onclick="event.stopPropagation();uploadTeamPhoto(3)">更换照片</div></div><div class="team-info"><h4>林钰涵<span>Aubrey</span></h4><div class="role">咨询经理</div><div class="edu">暨南大学、帝国理工学院</div><div class="team-tags"><span>数据分析</span><span>跨境研究</span><span>逻辑思维</span></div><button class="team-toggle" onclick="toggleTeamDetail(3)">查看详细背景 ↓</button><div class="team-detail" id="teamDetail-3"><p><strong>背景</strong> 艾瑞咨询投融资咨询服务部咨询经理。主要参与互联网、金融、消费、文娱等领域的投融资研究服务；作为项目执行者，负责调研访谈内容的研究、二手资料的整理、行业研究报告的撰写以及IPO项目的执行。</p><p><strong>经历</strong> 在加入艾瑞之前，主要从事数据中台管理与投研工作，专业经验包括交通银行总行数据管理与应用部、信达证券研究所、第一创业证券投行部等。</p></div></div></div><div class="team-card reveal" id="teamCard-4" style="transition-delay: 0.32s;"><div class="team-photo"><img src="pics/vilie.png" alt="田晴" onerror="this.outerHTML='&lt;div class='ph'&gt;田&lt;/div&gt;'"><div class="photo-upload-hint" onclick="event.stopPropagation();uploadTeamPhoto(4)">更换照片</div></div><div class="team-info"><h4>田晴<span>Vilie</span></h4><div class="role">咨询经理</div><div class="edu">伯明翰大学、爱丁堡大学</div><div class="team-tags"><span>资源整合</span><span>出海服务</span><span>高审美</span></div><button class="team-toggle" onclick="toggleTeamDetail(4)">查看详细背景 ↓</button><div class="team-detail" id="teamDetail-4"><p><strong>背景</strong> 艾瑞咨询投融资咨询服务部咨询经理。主要参与金融、跨境服务商、出海DTC、新能源与交通、数字孪生等领域的投融资研究；作为项目执行者，负责调研访谈内容的研究、二手资料的整理、行业研究报告的撰写以及IPO项目的执行。</p><p><strong>经历</strong> 在加入艾瑞之前，主要从事财务管理与营销管理工作，专业经验包括吉利国际销售财务管理部、晶科能源国际商务管理培训部等。</p></div></div></div><div class="team-card reveal" id="teamCard-5" style="transition-delay: 0.4s;"><div class="team-photo"><img src="pics/elody.jpg" alt="潘伊宇" onerror="this.outerHTML='&lt;div class='ph'&gt;潘&lt;/div&gt;'"><div class="photo-upload-hint" onclick="event.stopPropagation();uploadTeamPhoto(5)">更换照片</div></div><div class="team-info"><h4>潘伊宇<span>Elody</span></h4><div class="role">分析师</div><div class="edu">北京外国语大学、纽约大学</div><div class="team-tags"><span>逻辑性强</span><span>数据洞察</span><span>认真负责</span></div><button class="team-toggle" onclick="toggleTeamDetail(5)">查看详细背景 ↓</button><div class="team-detail" id="teamDetail-5"><p><strong>背景</strong> 艾瑞咨询投融资咨询服务部行业分析师。主要参与金融、消费、食品和农业科技、新能源等领域的投融资研究，以及司库平台建设、内部控制、投后管理等咨询项目。</p><p><strong>经历</strong> 在加入艾瑞之前，主要从事管理咨询和投融资工作，专业经验包括Better Bite Venture、德勤管理咨询部、IDC咨询数据分析部等。</p></div></div></div></div>
+    </div>
+
+    <!-- Team Edit Form -->
+    <div class="container">
+      <div class="edit-form" id="teamForm">
+        <h4>编辑项目团队</h4>
+        <div class="form-group">
+          <label>团队描述</label>
+          <textarea id="editTeamDesc" rows="2" placeholder="输入团队描述">项目总监负责总体规划与关键结论校验；项目经理负责总体执行与交付质量把控；研究团队负责各模块执行与报告撰写</textarea>
+        </div>
+        <h5 style="margin:16px 0 8px;font-size:14px;font-weight:600;color:var(--gray-700);">团队成员</h5>
+        <div id="teamFormsContainer"></div>
+        <div class="form-actions">
+          <button class="save" onclick="saveTeam()">保存</button>
+          <button onclick="addTeamMember()">+ 添加成员</button>
+          <button onclick="cancelEdit('teamForm')">取消</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why -->
+  <section class="section dark-section" id="why">
+    <div class="container">
+      <div class="sec-label reveal">Why iResearch</div>
+      <h2 class="sec-title reveal">为什么选择艾瑞</h2>
+      <div class="card-grid reveal">
+        <div class="card card-tech reveal" style="transition-delay: 0s;"><h3>行业领导地位</h3><p>中国新经济研究咨询领域领导品牌，近二十年深耕积累</p></div>
+        <div class="card card-tech reveal" style="transition-delay: 0.08s;"><h3>金融支付专长</h3><p>跨境支付、数字人民币、第三方支付等赛道深度研究积累</p></div>
+        <div class="card card-tech reveal" style="transition-delay: 0.16s;"><h3>数据能力强大</h3><p>自有数据产品 + 外部合作 + 亚信数据服务加持</p></div>
+        <div class="card card-tech reveal" style="transition-delay: 0.24s;"><h3>AI赋能研究</h3><p>2025年加速AI技术赋能，在数据分析和智能洞察方面实现突破</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="padding:48px 0 60px;text-align:center;font-size:13px;color:var(--gray-500);border-top:1px solid var(--gray-100);">
+    <div class="container">
+      <p style="margin-bottom:6px;">咨询电话 400-026-2099 ｜ 官网 www.idigital.com.cn ｜ 邮箱 ask@iresearch.com.cn</p>
+      <p><span id="unlockTrigger" style="cursor:pointer;" title="">©</span> 2026 iResearch 艾瑞咨询 | 本方案仅供内部讨论使用</p>
+    </div>
+  </footer>
+
+</main>
+
+<!-- Drag Toast -->
+<div class="gantt-drag-toast" id="dragToast"></div>
+
+<!-- Password Modal -->
+<div class="pw-modal-overlay" id="pwModal">
+  <div class="pw-modal">
+    <h4>🔒 进入编辑模式</h4>
+    <p>请输入密码解锁编辑功能</p>
+    <div class="pw-error" id="pwError">密码错误</div>
+    <input type="password" id="pwInput" placeholder="输入密码" maxlength="20">
+    <button onclick="verifyPassword()">解锁</button>
+  </div>
+</div>
+
+<script>
+/* <PROPOSAL_DATA> */
+let DATA = {
+  "hero": {
+    "title": "全球跨境支付市场研究方案",
+    "client": "连连数字",
+    "date": "2026年5月",
+    "desc": "以独立第三方的专业视角，深度解析跨境支付行业格局与新兴支付力量发展趋势。"
+  },
+  "casesDesc": "艾瑞团队对金融及支付相关行业的关注和研究由来已久，已经成为该领域最为人所知的研究机构之一。",
+  "cases": [
+    {
+      "id": "c4772",
+      "year": "2025",
+      "title": "2025年中国AI+互联网媒体行业研究报告",
+      "desc": "本报告聚焦AI技术在互联网媒体内容生态中的应用，深入分析AIGC内容生产、智能推荐算法演进及内容平台商业模式创新，为行业从业者提供前瞻性洞察。",
+      "tags": [
+        "AI互联网媒体内容生态"
+      ],
+      "cover": "https://pic.iresearch.cn/rimgs/4772/1.jpg",
+      "url": "https://www.iresearch.com.cn/Detail/report?id=4772&isfree=0"
+    },
+    {
+      "id": "c4825",
+      "url": "https://www.iresearch.com.cn/Detail/report?id=4825&isfree=0",
+      "year": "",
+      "title": "2026年中国跨境电商SaaS市场行业报告",
+      "desc": "中国商品出口贸易整体保持增长，中国跨境电商出口持续保持高速增长态势，成为拉动出口结构优化和外贸高质量发展的关键力量。当前中国出海卖家面临着地缘政治、贸易政策摇摆、电商平台多元化竞争、创新技术加速应用等市场变化。跨境电商SaaS服务商以全链路数字化工具，解决出海卖家运营难题，ERP系统位于跨境电商SaaS系统的核心位置，承担出海卖家“经营大脑”的角色。本文重点梳理跨境电商ERP SaaS行业发展情况，阐述其如何通过卓越的产品与服务能力为不同类型的出海卖家提供价值。",
+      "tags": [
+        "跨境电商",
+        "SaaS"
+      ],
+      "cover": "https://pic.iresearch.cn/rimgs/4825/1.jpg"
+    },
+    {
+      "id": "c4824",
+      "url": "https://www.iresearch.com.cn/Detail/report?id=4824&isfree=0",
+      "year": "",
+      "title": "2026年跨境电商韩国市场机遇洞察白皮书",
+      "desc": "全球经济承压，贸易摩擦反复，市场多元化已成企业出海必选题。韩国作为发达经济体中的市场盲区，电商成熟度高、消费力强、营商环境稳定且竞争格局尚未饱和，具备极高的商业价值。本报告深入剖析韩国电商市场现状，解读其独特的消费者特征与平台生态，系统性地为不同类型的中国卖家提供了从品类机遇、渠道布局、履约模式到合规税务的全链路策略指引。",
+      "tags": [
+        "跨境电商，韩国市场"
+      ],
+      "cover": "https://pic.iresearch.cn/rimgs/4824/1.jpg"
+    },
+    {
+      "id": "c4780",
+      "url": "https://www.iresearch.com.cn/Detail/report?id=4780&isfree=0",
+      "year": "",
+      "title": "2025年中国第三方支付行业研究报告",
+      "desc": "",
+      "tags": [
+        "第三方支付"
+      ],
+      "cover": "https://pic.iresearch.cn/rimgs/4780/1.jpg"
+    }
+  ],
+  "planDesc": "以下为项目执行计划，具体研究内容、周期及交付形式可根据实际业务需求灵活调整。",
+  "outline": [
+    {
+      "chapter": "1",
+      "title": "全球与中国跨境贸易及电商市场概览",
+      "sections": [
+        {
+          "num": "1.1",
+          "title": "全球跨境贸易",
+          "items": [
+            "2021-2030e全球跨境贸易总额及增速，以及B2B/B2C、服贸/商贸等细分市场发展趋势分析（艾瑞咨询独立核算）",
+            "全球主要贸易区域（北美、欧洲、亚太、拉美等）贸易流向与份额变化分析"
+          ]
+        },
+        {
+          "num": "1.2",
+          "title": "中国跨境贸易",
+          "items": [
+            "2021-2030e中国进出口贸易总额及全球份额变化，以及B2B/B2C、服贸/商贸等细分市场发展趋势分析（艾瑞咨询独立核算）",
+            "中国进出口贸易结构拆解，及与主要地区和新兴市场的贸易增长情况",
+            "中国出海企业市场规模，以及发展趋势分析（艾瑞咨询独立核算）"
+          ]
+        },
+        {
+          "num": "1.3",
+          "title": "全球跨境电商市场",
+          "items": [
+            "2021-2030e全球跨境电商交易总额（B2B、B2C、C2C）及增速，以及跨境电商在贸易总额中的渗透率分析（艾瑞咨询独立核算）",
+            "全球跨境电商B2B市场趋势详解（高增速，高度分散）",
+            "主要区域及东南亚、拉美、中东等新兴市场跨境电商发展趋势分析"
+          ]
+        },
+        {
+          "num": "1.4",
+          "title": "中国跨境电商市场",
+          "items": [
+            "2021-2030e中国跨境电商交易总额及全球份额变化（艾瑞咨询独立核算）",
+            "中国跨境电商进出口结构及驱动力分析"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter": "2",
+      "title": "新兴支付力量研究——Web3",
+      "sections": [
+        {
+          "num": "2.1",
+          "title": "全球Web3跨境支付市场概览",
+          "items": [
+            "按支付媒介及资产类型的划分：原生加密货币、稳定币、代币化法币（如央行数字货币）",
+            "当前全球Web3跨境支付流通环节的划分：入金兑换、流转交易、跨境结算、出金提现",
+            "重要流通环节发展分析：其中流转交易环节性能显著提升，稳定币成为主力，各类跨链协议规模化，交易所平台合规化"
+          ]
+        },
+        {
+          "num": "2.2",
+          "title": "全球稳定币支付市场分析",
+          "items": [
+            "2021-2025全球稳定币年度交易结算总额，对比传统支付网络规模（艾瑞咨询独立核算）",
+            "稳定币支付在全球贸易总额及跨境电商交易中的渗透率分析",
+            "稳定币跨境支付的核心应用场景分析，包括B2B贸易结算、供应链金融、跨境汇款等",
+            "稳定币的核心价值与优势分析，如降低交易成本、提升结算速度、增强透明度等",
+            "主要海外市场（北美、欧洲、东南亚、非洲等）的监管环境、发展特点与采用率分析",
+            "2026-2030e全球稳定币交易规模及渗透率预测（艾瑞咨询独立核算）"
+          ]
+        },
+        {
+          "num": "2.3",
+          "title": "数字人民币（e-CNY）的跨境应用分析",
+          "items": [
+            "数字人民币跨境贸易结算试点进展，包括试点项目、参与国家/地区、合作机构、交易规模等",
+            "多边央行数字货币桥（mBridge）项目进展，包括参与方、应用案例、实际价值等",
+            "数字人民币的战略价值分析，如促进人民币国际化、提升中国跨境支付效率、构建多元化支付体系等",
+            "2026-2030e数字人民币跨境贸易潜在交易规模及渗透率预测（艾瑞咨询独立核算）"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter": "3",
+      "title": "新兴技术分析——人工智能（AI）在跨境贸易中的应用",
+      "sections": [
+        {
+          "num": "3.1",
+          "title": "全球AI应用市场概览",
+          "items": [
+            "2021-2030e全球AI市场支出规模及增长趋势分析（艾瑞咨询独立核算）",
+            "AI技术在各行业的应用场景梳理"
+          ]
+        },
+        {
+          "num": "3.2",
+          "title": "AI技术在跨境贸易领域的应用场景与市场机会评估",
+          "items": [
+            "AI技术在贸易营销与客户运营、订单与履约自动化、供应链与财务管理、跨境支付场景的具体分析",
+            "AI技术在跨境支付领域的具体应用场景分析：智能反欺诈与合规风控（AML/KYC）、动态汇率定价与成本优化、交易路径优化、自动化对账与清算、智能客服等",
+            "各主要应用场景的市场增长潜力评估",
+            "主要业务形态和收入模式分析，例如跨境支付垂类大模型及Agent及Token分发平台模式",
+            "AI技术对跨境支付供应商的价值分析",
+            "AI技术在跨境支付领域的发展趋势分析"
+          ]
+        }
+      ]
+    },
+    {
+      "chapter": "4",
+      "title": "全球跨境支付市场竞争格局与趋势分析",
+      "sections": [
+        {
+          "num": "4.1",
+          "title": "全球跨境支付市场参与者图谱",
+          "items": [
+            "传统金融机构：SWIFT、大型跨国银行等",
+            "新兴金融科技公司及第三方支付公司：Stripe、Adyen、PayPal、连连、移卡、PingPong、空中云汇、Payoneer等",
+            "稳定币发行方与区块链网络：Circle（USDC）、Tether（USDT）及其他公链生态",
+            "布局支付领域的科技巨头：蚂蚁、腾讯、Amazon等生态下的跨境支付品牌"
+          ]
+        },
+        {
+          "num": "4.2",
+          "title": "全球跨境支付市场现状与竞争态势",
+          "items": [
+            "主要市场参与者在新兴支付技术领域的战略布局、投资与最新动态梳理",
+            "不同市场参与者的竞争优劣势分析",
+            "2021-2030e全球跨境支付及其细分市场交易规模（艾瑞咨询独立核算）",
+            "连连领先性分析：中国最大的独立的跨境支付解决方案提供商",
+            "连连的新商业版图分析（待实际执行研究并与公司商议后确定）"
+          ]
+        },
+        {
+          "num": "4.3",
+          "title": "全球跨境支付市场发展趋势",
+          "items": [
+            "传统机构与新兴力量的竞合关系",
+            "AI与区块链、数字货币等技术的融合创新趋势",
+            "中国支付企业的全球化扩张机遇"
+          ]
+        }
+      ]
+    }
+  ],
+  "scheduleConfig": {
+    "labels": [
+      "第1周",
+      "第2周",
+      "第3周",
+      "第4周",
+      "第5周",
+      "第6周",
+      "第7周",
+      "第8周"
+    ]
+  },
+  "schedule": [
+    {
+      "name": "项目启动",
+      "start": 0,
+      "width": 12,
+      "type": "bar",
+      "time": "第1周"
+    },
+    {
+      "name": "案头研究",
+      "start": 8,
+      "width": 25,
+      "type": "bar",
+      "time": "第2-3周"
+    },
+    {
+      "name": "业务访谈",
+      "start": 25,
+      "width": 20,
+      "type": "milestone",
+      "time": "第3-4周"
+    },
+    {
+      "name": "外部调研",
+      "start": 37,
+      "width": 20,
+      "type": "bar",
+      "time": "第4-5周"
+    },
+    {
+      "name": "报告撰写",
+      "start": 50,
+      "width": 25,
+      "type": "bar",
+      "time": "第5-6周"
+    },
+    {
+      "name": "进度汇报",
+      "start": 62,
+      "width": 4,
+      "type": "milestone",
+      "time": "第6周末"
+    },
+    {
+      "name": "修改完善",
+      "start": 75,
+      "width": 12,
+      "type": "bar",
+      "time": "第7周"
+    },
+    {
+      "name": "定稿发布",
+      "start": 88,
+      "width": 12,
+      "type": "milestone",
+      "time": "第8周"
+    }
+  ],
+  "quote": {
+    "amount": "250,000",
+    "currency": "贰拾伍万元整",
+    "code": "RMB"
+  },
+  "teamDesc": "项目总监负责总体规划与关键结论校验；项目经理负责总体执行与交付质量把控；研究团队负责各模块执行与报告撰写",
+  "team": [
+    {
+      "name": "赵坤",
+      "en": "Castle Zhao",
+      "role": "首席分析师",
+      "edu": "中国社会科学院金融研究所",
+      "photo": "pics/赵坤.png",
+      "bio": "艾瑞咨询投资研究部首席分析师。主要参与金融、TMT、消费、跨境、供应链、企业服务、文娱等领域的投融资研究服务；作为项目执行者，负责调研方案设立，项目进度及研究成果把控。",
+      "exp": "在加入艾瑞之前，先后就职于多家券商研究所，并曾参与上市公司海外市场并购项目，覆盖二级市场上市标的长达8年，其中港股、美股市场曾覆盖复星集团、安踏国际、波司登、海底捞、呷哺呷哺等。",
+      "tags": [
+        "君子不器",
+        "研究合理性",
+        "投资有效性"
+      ]
+    },
+    {
+      "name": "钱奇",
+      "en": "Shawn",
+      "role": "研究总监",
+      "edu": "上海外国语大学、罗彻斯特大学",
+      "photo": "pics/钱奇.png",
+      "bio": "艾瑞咨询投融资研究服务部研究总监。主要参与互联网、金融、人工智能、消费等在内的IPO行业顾问、商业尽调、市场战略咨询等研究服务。曾参与多家互联网金融、新零售的IPO行业研究项目并通过美国AICPA考试认证。",
+      "exp": "在加入艾瑞之前，主要从事投资研究工作，专业经验包括安永财务交易咨询部、民生证券研究所、国金证券投行部。",
+      "tags": [
+        "财务分析",
+        "跨境研究",
+        "tech-savvy"
+      ]
+    },
+    {
+      "name": "刘懿婧",
+      "en": "Jenny",
+      "role": "高级咨询经理",
+      "edu": "新加坡国立大学、复旦大学",
+      "photo": "pics/jenny.png",
+      "bio": "艾瑞咨询投融资咨询服务部高级咨询经理。主要参与金融、企服、科技、消费、物流等领域的投融资研究；作为项目执行者，负责调研访谈、二手资料整理、模型测算、行业研究报告撰写。",
+      "exp": "在加入艾瑞之前，主要从事战略咨询与数据分析工作，专业经验包括毕马威咨询服务部、海通证券机构业务部、汇丰银行财富管理部等。",
+      "tags": [
+        "数据洞察",
+        "思辨力",
+        "责任心"
+      ]
+    },
+    {
+      "name": "林钰涵",
+      "en": "Aubrey",
+      "role": "咨询经理",
+      "edu": "暨南大学、帝国理工学院",
+      "photo": "pics/yuhan.png",
+      "bio": "艾瑞咨询投融资咨询服务部咨询经理。主要参与互联网、金融、消费、文娱等领域的投融资研究服务；作为项目执行者，负责调研访谈内容的研究、二手资料的整理、行业研究报告的撰写以及IPO项目的执行。",
+      "exp": "在加入艾瑞之前，主要从事数据中台管理与投研工作，专业经验包括交通银行总行数据管理与应用部、信达证券研究所、第一创业证券投行部等。",
+      "tags": [
+        "数据分析",
+        "跨境研究",
+        "逻辑思维"
+      ]
+    },
+    {
+      "name": "田晴",
+      "en": "Vilie",
+      "role": "咨询经理",
+      "edu": "伯明翰大学、爱丁堡大学",
+      "photo": "pics/vilie.png",
+      "bio": "艾瑞咨询投融资咨询服务部咨询经理。主要参与金融、跨境服务商、出海DTC、新能源与交通、数字孪生等领域的投融资研究；作为项目执行者，负责调研访谈内容的研究、二手资料的整理、行业研究报告的撰写以及IPO项目的执行。",
+      "exp": "在加入艾瑞之前，主要从事财务管理与营销管理工作，专业经验包括吉利国际销售财务管理部、晶科能源国际商务管理培训部等。",
+      "tags": [
+        "资源整合",
+        "出海服务",
+        "高审美"
+      ]
+    },
+    {
+      "name": "潘伊宇",
+      "en": "Elody",
+      "role": "分析师",
+      "edu": "北京外国语大学、纽约大学",
+      "photo": "pics/elody.jpg",
+      "bio": "艾瑞咨询投融资咨询服务部行业分析师。主要参与金融、消费、食品和农业科技、新能源等领域的投融资研究，以及司库平台建设、内部控制、投后管理等咨询项目。",
+      "exp": "在加入艾瑞之前，主要从事管理咨询和投融资工作，专业经验包括Better Bite Venture、德勤管理咨询部、IDC咨询数据分析部等。",
+      "tags": [
+        "逻辑性强",
+        "数据洞察",
+        "认真负责"
+      ]
+    }
+  ],
+  "experts": [
+    {
+      "name": "专家A",
+      "company": "连连数字",
+      "role": "跨境支付业务负责人",
+      "bio": "10年跨境支付行业经验，曾主导多项跨境支付产品创新，对B2B贸易结算、跨境电商支付有深度理解。"
+    },
+    {
+      "name": "专家B",
+      "company": "蚂蚁集团",
+      "role": "国际业务战略总监",
+      "bio": "深耕东南亚、欧洲等海外市场多年，对全球支付监管政策及本地化运营有丰富经验。"
+    },
+    {
+      "name": "专家C",
+      "company": "Stripe",
+      "role": "亚太区合作伙伴总监",
+      "bio": "专注全球支付基础设施与开发者生态建设，对API-first支付解决方案有独特见解。"
+    }
+  ]
+};
+/* </PROPOSAL_DATA> */
+
+// ===== Report Database (B: 预置数据库) =====
+// 用法：把常用的报告按 id 录入，自动填充时优先匹配
+const REPORT_DB = {
+  "4772": { year:"2025", title:"2025年中国AI+互联网媒体行业研究报告", desc:"本报告聚焦AI技术在互联网媒体内容生态中的应用，深入分析AIGC内容生产、智能推荐算法演进及内容平台商业模式创新，为行业从业者提供前瞻性洞察。", tags:["AI互联网媒体内容生态"], cover:"https://pic.iresearch.cn/rimgs/4772/1.jpg" }
+  // ← 在这里继续添加更多报告，格式同上
+};
+
+// 按中英边界切分标签，如 "跨境电商SaaS" → ["跨境电商","SaaS"]
+function splitMixedTags(str) {
+  const tags = [];
+  let cur = '';
+  let wasCJK = null;
+  for (const ch of str) {
+    const isCJK = /[一-鿿]/.test(ch);
+    if (wasCJK !== null && wasCJK !== isCJK && cur.length >= 2) {
+      tags.push(cur);
+      cur = ch;
+    } else {
+      cur += ch;
+    }
+    wasCJK = isCJK;
+  }
+  if (cur.length >= 2) tags.push(cur);
+  //  fallback：尝试末尾英文缩写
+  if (tags.length === 1) {
+    const m = tags[0].match(/^(.+?)([A-Z][a-zA-Z0-9]{1,6})$/);
+    if (m) return [m[1], m[2]];
+  }
+  return tags;
+}
+
+// 从标题中提取年份（如"2025年中国..." → "2025"）
+function extractYearFromTitle(title) {
+  if (!title) return '';
+  const m = title.match(/(?:^|\D)(20\d{2})(?:\D|$)/);
+  return m ? m[1] : '';
+}
+
+// ===== Batch Parse (A: 批量粘贴解析) =====
+function parseBatchCases(text) {
+  const rawLines = text.split('\n').map(l => l.trim()).filter(l => l);
+  const cases = [];
+  let cur = null;
+
+  function cleanLine(line) {
+    // 去掉行首的时间标记，如 "2天前跨境电商SaaS" → "跨境电商SaaS"
+    line = line.replace(/^\d+\s*[天小时分钟个]?[前内]\s*/, '');
+    // 去掉纯数字行（非4位年份）
+    if (/^\d{1,3}$/.test(line) || /^\d{5,}$/.test(line)) return '';
+    // 去掉明显的垃圾短句
+    if (/^(阅读|浏览|查看详情|立即下载|免费|付费|价格)/.test(line)) return '';
+    return line;
+  }
+  function isYear(line) { return /^\d{4}$/.test(line); }
+  function isTitle(line) { return /研究报告|行业报告|市场报告|白皮书|行业研究|市场研究|年度分析/.test(line); }
+
+  function saveCase() {
+    if (!cur) return;
+    if (!cur.year && cur.title) cur.year = extractYearFromTitle(cur.title);
+    if (cur.title || cur.url) cases.push({ ...cur });
+  }
+
+  function newCase(url, id) {
+    saveCase();
+    const db = id ? REPORT_DB[id] : null;
+    cur = {
+      id: 'c' + (id || Date.now()),
+      url: url || '',
+      year: db?.year || '',
+      title: db?.title || '',
+      desc: db?.desc || '',
+      tags: db?.tags ? [...db.tags] : [],
+      cover: db?.cover || (id ? 'https://pic.iresearch.cn/rimgs/' + id + '/1.jpg' : '')
+    };
+  }
+
+  for (const rawLine of rawLines) {
+    const line = cleanLine(rawLine);
+    if (!line) continue;
+
+    // 链接行 → 新建案例
+    const urlMatch = rawLine.match(/id=(\d+)/);
+    if (urlMatch || rawLine.startsWith('http')) {
+      const id = urlMatch ? urlMatch[1] : '';
+      newCase(rawLine.startsWith('http') ? rawLine : '', id);
+      continue;
+    }
+
+    // 标题行 → 无案例时新建
+    if (isTitle(line)) {
+      if (!cur) newCase();
+      if (!cur.title) cur.title = line;
+      continue;
+    }
+
+    // 年份
+    if (isYear(line)) {
+      if (!cur) newCase();
+      if (!cur.year) cur.year = line;
+      continue;
+    }
+
+    if (!cur) continue;
+
+    // 标签：短、无标点。尝试按中英边界切分多个标签
+    if (line.length <= 30 && !/[，。！？、；：.!?,;:]/.test(line)) {
+      const splitTags = splitMixedTags(line);
+      for (const t of splitTags) {
+        if (t.length >= 2 && cur.tags.length < 3) cur.tags.push(t);
+      }
+      continue;
+    }
+
+    // 简介：较长段落
+    if (line.length > 25 && !cur.desc) {
+      cur.desc = line;
+      continue;
+    }
+  }
+
+  saveCase();
+  return cases;
+}
+
+// ===== Chinese Currency Converter =====
+function toChineseAmount(numStr) {
+  const cn = ['零','壹','贰','叁','肆','伍','陆','柒','捌','玖'];
+  const unit4 = ['','拾','佰','仟'];
+  const bigUnit = ['','万','亿'];
+
+  let num = parseInt(numStr.replace(/,/g, ''), 10);
+  if (isNaN(num) || num === 0) return '零元整';
+  if (num > 999999999999) return '金额过大';
+
+  let str = num.toString();
+  let padLen = (4 - str.length % 4) % 4;
+  str = '0'.repeat(padLen) + str;
+
+  let groupCount = str.length / 4;
+  let result = '';
+
+  for (let g = 0; g < groupCount; g++) {
+    let group = str.slice(g * 4, (g + 1) * 4);
+    let groupRes = '';
+    let hasValue = false;
+    let zero = false;
+
+    for (let i = 0; i < 4; i++) {
+      let n = parseInt(group[i]);
+      let unitPos = 3 - i;
+      if (n === 0) {
+        if (hasValue && !zero) { zero = true; }
+      } else {
+        if (zero) { groupRes += cn[0]; zero = false; }
+        groupRes += cn[n] + unit4[unitPos];
+        hasValue = true;
+      }
+    }
+
+    if (hasValue) {
+      let bu = bigUnit[groupCount - 1 - g];
+      if (bu) groupRes += bu;
+      result += groupRes;
+    }
+  }
+
+  result = result.replace(/零+/g, '零');
+  result = result.replace(/零万/g, '万');
+  result = result.replace(/零亿/g, '亿');
+  if (result.endsWith('零')) { result = result.slice(0, -1); }
+
+  return result + '元整';
+}
+
+// ===== LocalStorage Persistence =====
+const STORAGE_KEY = 'iresearch_proposal_data_v1';
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // 深度合并：保留默认值作为后备
+      if (parsed.hero) Object.assign(DATA.hero, parsed.hero);
+      if (parsed.casesDesc !== undefined) DATA.casesDesc = parsed.casesDesc;
+      if (parsed.cases) DATA.cases = parsed.cases;
+      if (parsed.planDesc !== undefined) DATA.planDesc = parsed.planDesc;
+      if (parsed.outline) DATA.outline = parsed.outline;
+      if (parsed.scheduleConfig) DATA.scheduleConfig = parsed.scheduleConfig;
+      if (parsed.schedule) DATA.schedule = parsed.schedule;
+      if (parsed.quote) Object.assign(DATA.quote, parsed.quote);
+      if (parsed.teamDesc !== undefined) DATA.teamDesc = parsed.teamDesc;
+      if (parsed.team) DATA.team = parsed.team;
+      if (parsed.experts) DATA.experts = parsed.experts;
+      return true;
+    }
+  } catch(e) { console.error('加载保存数据失败', e); }
+  return false;
+}
+
+function saveToStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+  } catch(e) { console.error('保存数据失败', e); }
+}
+
+function clearStorage() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    alert('本地缓存已清除，刷新页面后将恢复默认数据');
+  } catch(e) { console.error('清除缓存失败', e); }
+}
+
+// ===== Mode Switching =====
+function setMode(mode) {
+  document.body.className = mode + '-mode';
+  document.getElementById('btnPreview').classList.toggle('active', mode === 'preview');
+  document.getElementById('btnEdit').classList.toggle('active', mode === 'edit');
+  if(mode === 'preview') {
+    document.querySelectorAll('.edit-form').forEach(f => f.style.display = 'none');
+  } else {
+    editHero();
+    editCases();
+    editOutline();
+    editExperts();
+    editPlan();
+    editQuote();
+    editTeam();
+  }
+}
+
+// ===== Hero =====
+function editHero() {
+  if(!document.body.classList.contains('edit-mode')) return;
+  document.getElementById('heroForm').style.display = 'block';
+}
+function saveHero() {
+  DATA.hero.title = document.getElementById('editHeroTitle').value;
+  DATA.hero.client = document.getElementById('editHeroClient').value;
+  DATA.hero.date = document.getElementById('editHeroDate').value;
+  DATA.hero.desc = document.getElementById('editHeroDesc').value;
+  renderHero();
+  saveToStorage();
+  cancelEdit('heroForm');
+}
+function renderHero() {
+  document.getElementById('heroTitle').innerHTML = '<em>' + DATA.hero.title.replace(/\n/g,'<br>') + '</em>';
+  document.getElementById('heroDesc').textContent = '敬呈' + DATA.hero.client + ' — ' + DATA.hero.desc;
+  document.querySelector('.hero-meta').innerHTML =
+    '<div><strong>项目类型</strong> 行业研究咨询</div>' +
+    '<div><strong>提交日期</strong> ' + DATA.hero.date + '</div>';
+}
+
+// ===== Cases =====
+function renderCasesDesc() {
+  document.getElementById('casesDesc').textContent = DATA.casesDesc;
+}
+function renderPlanDesc() {
+  document.getElementById('planDesc').textContent = DATA.planDesc;
+}
+
+function editCases() {
+  if(!document.body.classList.contains('edit-mode')) return;
+  document.getElementById('editCasesDesc').value = DATA.casesDesc;
+  renderCaseForms();
+  document.getElementById('casesForm').style.display = 'block';
+}
+function renderCaseForms() {
+  const container = document.getElementById('caseFormsContainer');
+  container.innerHTML = DATA.cases.map((c,i) => `
+    <div class="case-form-item" data-case-idx="${i}">
+      <h5>案例 ${i+1}</h5>
+      <div class="form-group">
+        <label>iResearch 报告链接</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" class="case-url" data-idx="${i}" value="${c.url || ''}" placeholder="粘贴 iResearch 报告链接" style="flex:1;" onblur="autoFillCase(${i})">
+          <button type="button" onclick="autoFillCase(${i})" title="自动识别" style="padding:6px 10px;background:var(--primary);color:var(--white);border:none;border-radius:6px;font-size:12px;cursor:pointer;"">&#9889; 识别</button>
+        </div>
+        <p class="auto-fill-hint" id="caseHint-${i}" style="font-size:11px;color:var(--gray-500);margin-top:4px;display:none;"></p>
+      </div>
+      <div class="form-group"><label>报告标题</label><input type="text" class="case-title" data-idx="${i}" value="${c.title || ''}" placeholder="输入报告标题"></div>
+      <div class="form-group"><label>报告简介（可选）</label><textarea class="case-desc" data-idx="${i}" rows="3" placeholder="输入报告核心内容">${c.desc || ''}</textarea></div>
+      <div class="form-group"><label>封面图片 URL</label><input type="text" class="case-cover" data-idx="${i}" value="${c.cover || ''}" placeholder="粘贴图片链接，或点击上方自动填充"></div>
+      <div class="form-row">
+        <div class="form-group"><label>年份（可选）</label><input type="text" class="case-year" data-idx="${i}" value="${c.year || ''}" placeholder="2025"></div>
+        <div class="form-group"><label>标签（可选）</label><input type="text" class="case-tags-input" data-idx="${i}" value="${(c.tags || []).join(', ')}" placeholder="跨境支付, 行业研究"></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;margin-top:8px;">
+        <button onclick="moveCase(${i}, -1)" ${i === 0 ? 'disabled' : ''} style="font-size:12px;color:var(--gray-500);background:none;border:none;cursor:pointer;transition:all .2s;padding:4px 0;" ${i === 0 ? 'style="opacity:.4;cursor:not-allowed;"' : ''}>↑ 上移</button>
+        <button onclick="moveCase(${i}, 1)" ${i === DATA.cases.length - 1 ? 'disabled' : ''} style="font-size:12px;color:var(--gray-500);background:none;border:none;cursor:pointer;transition:all .2s;padding:4px 0;" ${i === DATA.cases.length - 1 ? 'style="opacity:.4;cursor:not-allowed;"' : ''}>↓ 下移</button>
+        <button onclick="removeCase(${i})" style="font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;transition:all .2s;padding:4px 0;margin-left:auto;">删除此案例</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function autoFillCase(idx) {
+  const item = document.querySelector('.case-form-item[data-case-idx="' + idx + '"]');
+  if (!item) return;
+  const urlInput = item.querySelector('.case-url');
+  const coverInput = item.querySelector('.case-cover');
+  const titleInput = item.querySelector('.case-title');
+  const descInput = item.querySelector('.case-desc');
+  const yearInput = item.querySelector('.case-year');
+  const tagsInput = item.querySelector('.case-tags-input');
+  const hint = document.getElementById('caseHint-' + idx);
+  const url = urlInput.value.trim();
+
+  if (!url) { if(hint){hint.textContent='请先输入报告链接';hint.style.display='block';hint.style.color='var(--gray-500)';} return; }
+
+  const m = url.match(/[?&]id=(\d+)/);
+  if (m) {
+    const id = m[1];
+    const db = REPORT_DB[id];
+    coverInput.value = db?.cover || 'https://pic.iresearch.cn/rimgs/' + id + '/1.jpg';
+    if (db) {
+      if (!titleInput.value) titleInput.value = db.title;
+      if (!descInput.value) descInput.value = db.desc;
+      if (!yearInput.value) yearInput.value = db.year || extractYearFromTitle(db.title);
+      if (!tagsInput.value) tagsInput.value = db.tags.join(', ');
+      if(hint){hint.textContent='已从数据库自动填充完整信息';hint.style.color='var(--primary)';}
+    } else {
+      if (!titleInput.value) titleInput.value = 'iResearch 行业研究报告';
+      if (!yearInput.value) yearInput.value = extractYearFromTitle(titleInput.value);
+      if(hint){hint.textContent='已生成封面图链接（该报告不在数据库中，标题和简介需手动填写）';hint.style.color='var(--gray-500)';}
+    }
+  } else {
+    if(hint){hint.textContent='无法识别报告ID，请手动填写';hint.style.color='var(--gray-500)';}
+  }
+  if(hint) hint.style.display = 'block';
+}
+
+function addCaseForm() {
+  const container = document.getElementById('caseFormsContainer');
+  // 保存滚动位置，防止插入后跳顶
+  const scrollY = window.scrollY;
+  const quick = document.createElement('div');
+  quick.id = 'quickAddCase';
+  quick.innerHTML = `
+    <div style="padding:16px;background:var(--primary-bg);border:1px dashed var(--primary);border-radius:12px;margin-bottom:16px;">
+      <p style="font-size:13px;color:var(--gray-700);margin-bottom:8px;">📋 快速添加：粘贴报告链接+标题+简介，系统自动识别</p>
+      <textarea id="quickCaseInput" rows="4" placeholder='支持两种格式：
+
+格式1：粘贴 iResearch 链接
+https://www.iresearch.com.cn/Detail/report?id=4772
+
+格式2：粘贴完整内容
+2025
+2025年中国AI+互联网媒体行业研究报告
+本报告聚焦AI技术...'
+      style="width:100%;padding:10px 14px;border:1px solid var(--gray-300);border-radius:8px;font-size:13px;resize:vertical;"></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button type="button" onclick="submitQuickCase()" style="padding:8px 16px;background:var(--primary);color:var(--white);border:none;border-radius:6px;font-size:13px;cursor:pointer;">识别并添加</button>
+        <button type="button" onclick="cancelQuickCase()" style="padding:8px 16px;background:transparent;color:var(--gray-500);border:1px solid var(--gray-300);border-radius:6px;font-size:13px;cursor:pointer;">手动填写</button>
+      </div>
+    </div>
+  `;
+  container.appendChild(quick);
+  quick.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function submitQuickCase() {
+  const input = document.getElementById('quickCaseInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const parsed = parseBatchCases(text);
+  if (parsed.length === 0) {
+    alert('未能识别内容，请检查格式');
+    return;
+  }
+  DATA.cases.push(...parsed);
+  const el = document.getElementById('quickAddCase');
+  if (el) el.remove();
+  renderCaseForms();
+}
+
+function cancelQuickCase() {
+  const el = document.getElementById('quickAddCase');
+  if (el) el.remove();
+  // 手动填写：添加一个空案例
+  DATA.cases.push({ id:'c' + Date.now(), title:'', desc:'', cover:'', url:'', year:'', tags:[] });
+  renderCaseForms();
+}
+function moveCase(i, dir) {
+  if (!DATA.cases || DATA.cases.length < 2) return;
+  const newIndex = i + dir;
+  if (newIndex < 0 || newIndex >= DATA.cases.length) return;
+  const temp = DATA.cases[i];
+  DATA.cases[i] = DATA.cases[newIndex];
+  DATA.cases[newIndex] = temp;
+  renderCaseForms();
+  renderCases();
+}
+function removeCase(i) {
+  DATA.cases.splice(i, 1);
+  renderCaseForms();
+}
+function saveCases() {
+  DATA.casesDesc = document.getElementById('editCasesDesc').value;
+  document.querySelectorAll('.case-form-item').forEach((el, i) => {
+    if(i >= DATA.cases.length) return;
+    DATA.cases[i].title = el.querySelector('.case-title').value;
+    DATA.cases[i].desc = el.querySelector('.case-desc').value;
+    DATA.cases[i].cover = el.querySelector('.case-cover').value;
+    DATA.cases[i].url = el.querySelector('.case-url').value;
+    DATA.cases[i].year = el.querySelector('.case-year').value;
+    DATA.cases[i].tags = el.querySelector('.case-tags-input').value.split(',').map(t => t.trim()).filter(t => t);
+  });
+  renderCasesDesc();
+  renderCases();
+  saveToStorage();
+  cancelEdit('casesForm');
+}
+function renderCaseOverview() {
+  const overview = document.getElementById('caseOverview');
+  if (!overview) return;
+  if (!DATA.cases || DATA.cases.length === 0) {
+    overview.innerHTML = '';
+    return;
+  }
+  overview.innerHTML = `
+    <div class="case-overview-title">案例总览 · 共 ${DATA.cases.length} 份研究报告</div>
+    <table class="case-overview-table">
+      <thead>
+        <tr><th style="width:80px;">序号</th><th>报告标题</th></tr>
+      </thead>
+      <tbody>
+        ${DATA.cases.map((c, i) => `
+          <tr onclick="scrollToCase(${i})" title="查看详情">
+            <td>${i + 1}</td>
+            <td>${c.title || '未命名报告'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function truncateTitle(title, maxLen) {
+  if (title.length <= maxLen) return title;
+  return title.slice(0, maxLen) + '…';
+}
+
+function renderCases() {
+  const container = document.getElementById('casePanels');
+  const dotsContainer = document.getElementById('caseDots');
+
+  renderCaseOverview();
+
+  container.innerHTML = DATA.cases.map((c, i) => `
+    <div class="case-card" data-case-index="${i}">
+      <div class="case-cover">
+        ${c.cover ? '<img src="' + c.cover + '" alt="' + (c.title || '报告封面') + '">' : '<div class="no-cover"><div class="year">' + (c.year || '2025') + '</div><div class="title">' + (c.title || '未命名报告') + '</div></div>'}
+      </div>
+      <div class="case-info">
+        <div class="year-tag">${c.year || '2025'}</div>
+        <h3 title="${(c.title || '未命名报告').replace(/"/g, '&quot;')}">${c.title || '未命名报告'}</h3>
+        ${c.desc ? '<p class="desc">' + c.desc + '</p>' : '<p class="empty-desc">暂无简介，请点击"编辑案例"添加</p>'}
+        <div class="tags">${(c.tags || []).map(t => '<span>' + t + '</span>').join('')}</div>
+        ${c.url ? '<a href="' + c.url + '" target="_blank" rel="noopener" class="case-link">查看报告 →</a>' : ''}
+      </div>
+    </div>
+  `).join('');
+
+  // 生成圆点
+  if (dotsContainer) {
+    if (DATA.cases.length > 1) {
+      dotsContainer.innerHTML = DATA.cases.map((_, i) =>
+        '<span class="case-dot' + (i === 0 ? ' active' : '') + '" data-dot-index="' + i + '" onclick="scrollToCase(' + i + ')"></span>'
+      ).join('');
+      dotsContainer.style.display = 'flex';
+    } else {
+      dotsContainer.style.display = 'none';
+    }
+  }
+
+  bindCaseScroll();
+}
+
+function scrollToCase(index) {
+  const container = document.getElementById('casePanels');
+  if (!container) return;
+  const card = container.querySelector('.case-card[data-case-index="' + index + '"]');
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+  }
+}
+
+let _caseScrollBound = false;
+function bindCaseScroll() {
+  if (_caseScrollBound) return;
+  const container = document.getElementById('casePanels');
+  if (!container) return;
+
+  container.addEventListener('scroll', () => {
+    const cards = container.querySelectorAll('.case-card');
+    const containerRect = container.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    cards.forEach((card, i) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const distance = Math.abs(cardCenter - containerCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = i;
+      }
+    });
+
+    updateActiveCaseDot(closestIndex);
+  });
+
+  _caseScrollBound = true;
+}
+
+function updateActiveCaseDot(index) {
+  const dots = document.querySelectorAll('.case-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+
+// ===== Outline =====
+function renderOutline() {
+  const container = document.getElementById('outlineTree');
+  container.innerHTML = DATA.outline.map((ch, idx) => `
+    <div class="outline-chapter ${idx===0?'open':''}" data-idx="${idx}">
+      <div class="outline-header" onclick="toggleOutline(${idx})">
+        <div class="ch-num">${ch.chapter}</div>
+        <div class="ch-title">${ch.title}</div>
+        <div class="ch-toggle">&#9662;</div>
+      </div>
+      <div class="outline-body">
+        ${ch.sections.map(sec => `
+          <div class="outline-section">
+            <div class="sec-num">${sec.num}</div>
+            <div class="sec-name">${sec.title}</div>
+            <ul>${sec.items.map(item => `<li>${item}</li>`).join('')}</ul>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function toggleOutline(idx) {
+  const chapters = document.querySelectorAll('.outline-chapter');
+  chapters.forEach((el, i) => el.classList.toggle('open', i === idx ? !el.classList.contains('open') : false));
+}
+
+// ===== Plan =====
+function outlineToText(data) {
+  return data.map(ch => {
+    let s = ch.chapter + ' ' + ch.title;
+    ch.sections.forEach(sec => {
+      s += '\n  ' + sec.num + ' ' + sec.title;
+      sec.items.forEach(item => { s += '\n    ' + item; });
+    });
+    return s;
+  }).join('\n');
+}
+
+function parseOutlineText(text) {
+  const lines = text.split('\n');
+  const outline = [];
+  let curCh = null, curSec = null;
+
+  lines.forEach(line => {
+    const trimmed = line.trimStart();
+    const indent = line.length - trimmed.length;
+
+    if (indent === 0 && trimmed) {
+      // Chapter
+      const m = trimmed.match(/^(\d+)\s+(.+)$/);
+      if (m) {
+        curCh = { chapter: m[1], title: m[2], sections: [] };
+        outline.push(curCh);
+        curSec = null;
+      }
+    } else if (indent === 2 && trimmed) {
+      // Section
+      const m = trimmed.match(/^(\d+\.\d+)\s+(.+)$/);
+      if (m) {
+        curSec = { num: m[1], title: m[2], items: [] };
+        if (curCh) curCh.sections.push(curSec);
+      }
+    } else if (indent >= 4 && trimmed) {
+      // Item
+      if (curSec) curSec.items.push(trimmed);
+    }
+  });
+  return outline;
+}
+
+function editOutline() {
+  if(!document.body.classList.contains('edit-mode')) return;
+  document.getElementById('editOutline').value = outlineToText(DATA.outline);
+  document.getElementById('outlineForm').style.display = 'block';
+}
+
+function previewOutline() {
+  const text = document.getElementById('editOutline').value.trim();
+  if (!text) return;
+  try {
+    const parsed = parseOutlineText(text);
+    DATA.outline = parsed;
+    renderOutline();
+    alert('预览已更新，确认无误后点击保存');
+  } catch(e) { alert('解析错误：' + e.message); }
+}
+
+function saveOutline() {
+  const text = document.getElementById('editOutline').value.trim();
+  if(text) {
+    try {
+      DATA.outline = parseOutlineText(text);
+      renderOutline();
+    } catch(e) { alert('大纲格式错误：' + e.message); return; }
+  }
+  saveToStorage();
+  cancelEdit('outlineForm');
+}
+function editPlan() {
+  if(!document.body.classList.contains('edit-mode')) return;
+  document.getElementById('editScheduleLabels').value = DATA.scheduleConfig.labels.join(',');
+  renderScheduleForms();
+  document.getElementById('planForm').style.display = 'block';
+}
+function renderScheduleForms() {
+  const container = document.getElementById('scheduleFormsContainer');
+  container.innerHTML = DATA.schedule.map((s,i) => {
+    const types = [
+      {key:'bar', label:'▬', title:'条形'},
+      {key:'milestone', label:'●', title:'里程碑'}
+    ];
+    const typeBtns = types.map(t =>
+      `<button type="button" onclick="setTaskType(${i},'${t.key}')" title="${t.title}"` +
+      ` style="width:32px;height:32px;border:1px solid ${s.type===t.key?'var(--primary)':'var(--gray-300)'};` +
+      `border-radius:6px;background:${s.type===t.key?'var(--primary-bg)':'var(--white)'};` +
+      `color:${s.type===t.key?'var(--primary)':'var(--gray-500)'};font-size:14px;cursor:pointer;` +
+      `transition:all .15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='${s.type===t.key?'var(--primary)':'var(--gray-300)'}'">${t.label}</button>`
+    ).join('');
+    return `<div style="display:flex;gap:12px;align-items:center;padding:12px 16px;background:var(--white);border:1px solid var(--gray-300);border-radius:10px;margin-bottom:10px;">
+      <span style="font-size:12px;color:var(--gray-500);font-weight:600;min-width:48px;">任务 ${i+1}</span>
+      <input type="text" class="sched-name" data-idx="${i}" value="${s.name || ''}" placeholder="任务名称" style="flex:1;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+      <div style="display:flex;gap:4px;">${typeBtns}</div>
+      <button onclick="removeScheduleTask(${i})" style="font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;padding:4px;">删除</button>
+    </div>`;
+  }).join('');
+}
+function setTaskType(idx, type) {
+  DATA.schedule[idx].type = type;
+  renderScheduleForms();
+  renderGantt();
+}
+function addScheduleTask() {
+  DATA.schedule.push({ name:'新任务', start:0, width:10, type:'bar', time:'' });
+  renderScheduleForms();
+}
+function removeScheduleTask(i) {
+  DATA.schedule.splice(i, 1);
+  renderScheduleForms();
+}
+function savePlan() {
+  const labelsText = document.getElementById('editScheduleLabels').value.trim();
+  if(labelsText) {
+    DATA.scheduleConfig.labels = labelsText.split(',').map(l => l.trim()).filter(l => l);
+  }
+  document.querySelectorAll('#scheduleFormsContainer > div').forEach((el, i) => {
+    if(i >= DATA.schedule.length) return;
+    DATA.schedule[i].name = el.querySelector('.sched-name').value;
+  });
+  renderGantt();
+  saveToStorage();
+  cancelEdit('planForm');
+}
+
+// ===== Gantt =====
+function renderGantt() {
+  const isEdit = document.body.classList.contains('edit-mode');
+  const cfg = DATA.scheduleConfig;
+
+  // Render labels
+  document.getElementById('ganttLabels').innerHTML = '<div></div><div class="gantt-labels-inner">' + cfg.labels.map(l => '<span>' + l + '</span>').join('') + '</div>';
+  document.getElementById('ganttHeaderLabel').textContent = '时间轴（' + cfg.labels.length + '周）';
+
+  document.getElementById('ganttBody').innerHTML = DATA.schedule.map((s, i) => {
+    const left = s.start;
+    const width = s.type === 'bar' ? s.width : 0;
+    const isMs = s.type === 'milestone';
+    return '<div class="gantt-row ' + (isMs?'milestone':'') + '">' +
+      '<div class="task-name">' + s.name + '<span>' + s.time + '</span></div>' +
+      '<div class="gantt-track">' +
+        '<div class="gantt-block ' + (isMs?'milestone':s.type) + '" ' +
+          'style="left:' + left + '%;width:' + width + '%" ' +
+          'data-idx="' + i + '" data-start="' + left + '" data-width="' + width + '">' +
+          (isEdit && s.type === 'bar' ? '<div class="gantt-handle gantt-handle-l"></div><div class="gantt-handle gantt-handle-r"></div>' : '') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  if (isEdit) bindGanttDrag();
+}
+
+function bindGanttDrag() {
+  if (window._ganttDragBound) return;
+  window._ganttDragBound = true;
+
+  let dragging = null;
+  let guideLine = null;
+
+  function getGuideLine(track) {
+    if (!guideLine) {
+      guideLine = document.createElement('div');
+      guideLine.className = 'gantt-guide-line';
+      document.body.appendChild(guideLine);
+    }
+    const trackRect = track.getBoundingClientRect();
+    guideLine.style.top = trackRect.top + 'px';
+    guideLine.style.height = trackRect.height + 'px';
+    return guideLine;
+  }
+
+  function snapToGrid(pct, totalCols) {
+    const step = 100 / totalCols;
+    return Math.round(pct / step) * step;
+  }
+
+  document.addEventListener('mousedown', e => {
+    if (!document.body.classList.contains('edit-mode')) return;
+    const block = e.target.closest('.gantt-block');
+    if (!block) return;
+
+    const idx = parseInt(block.dataset.idx);
+    const isMs = DATA.schedule[idx].type === 'milestone';
+
+    // 根据鼠标在条块上的相对位置判断操作：中间=移动，边缘=缩放
+    const blockRect = block.getBoundingClientRect();
+    const clickX = e.clientX - blockRect.left;
+    const clickPct = clickX / blockRect.width;
+
+    let type = 'move';
+    if (!isMs) {
+      if (clickPct < 0.2) type = 'resize-l';
+      else if (clickPct > 0.8) type = 'resize-r';
+    }
+
+    const track = block.parentElement;
+    const rect = track.getBoundingClientRect();
+    const row = block.closest('.gantt-row');
+    if (row) row.classList.add('is-dragging');
+    block.classList.add('is-dragging');
+
+    const cols = DATA.scheduleConfig.labels.length || 8;
+    dragging = {
+      block, idx, type, cols,
+      startX: e.clientX,
+      trackLeft: rect.left, trackWidth: rect.width,
+      origLeft: parseFloat(block.style.left) || parseFloat(block.dataset.start),
+      origWidth: parseFloat(block.style.width) || parseFloat(block.dataset.width),
+      row
+    };
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const dx = e.clientX - dragging.startX;
+    const dPct = (dx / dragging.trackWidth) * 100;
+    let newL, newW;
+
+    if (dragging.type === 'move') {
+      // 整体移动：位置变，大小不变，限制在 0 ~ (100-宽度)
+      newL = Math.max(0, Math.min(100 - dragging.origWidth, dragging.origLeft + dPct));
+      newL = snapToGrid(newL, dragging.cols);
+      dragging.block.style.left = newL + '%';
+    } else if (dragging.type === 'resize-l') {
+      // 拉左边：右边固定，左边在 0 ~ 右边-4 之间变动
+      const rightEdge = dragging.origLeft + dragging.origWidth; // 右边固定
+      const rawL = dragging.origLeft + dPct;
+      newL = Math.max(0, Math.min(rightEdge - 4, rawL));
+      newW = rightEdge - newL;
+      newW = Math.round(newW * 2) / 2;
+      dragging.block.style.left = newL + '%';
+      dragging.block.style.width = newW + '%';
+    } else if (dragging.type === 'resize-r') {
+      // 拉右边：左边固定，右边在 左边+4 ~ 100 之间变动
+      const leftEdge = dragging.origLeft; // 左边固定
+      const rawR = dragging.origLeft + dragging.origWidth + dPct;
+      const rightEdge = Math.min(100, Math.max(leftEdge + 4, rawR));
+      newW = rightEdge - leftEdge;
+      newW = Math.round(newW * 2) / 2;
+      newL = leftEdge;
+      dragging.block.style.width = newW + '%';
+      // left 不动
+    }
+
+    // update label
+    const end = newL + (dragging.block.classList.contains('milestone') ? 0 : newW);
+    let label = dragging.block.querySelector('.gantt-block-label');
+    if (!label) {
+      label = document.createElement('div');
+      label.className = 'gantt-block-label';
+      dragging.block.appendChild(label);
+    }
+    label.textContent = Math.round(newL) + '% - ' + Math.round(end) + '%';
+
+    // guide line
+    const guide = getGuideLine(dragging.block.parentElement);
+    const snapX = dragging.trackLeft + (newL / 100) * dragging.trackWidth;
+    guide.style.left = snapX + 'px';
+    guide.classList.add('show');
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    const left = parseFloat(dragging.block.style.left);
+    const width = parseFloat(dragging.block.style.width) || 0;
+    DATA.schedule[dragging.idx].start = left;
+    if (DATA.schedule[dragging.idx].type === 'bar') DATA.schedule[dragging.idx].width = width;
+    updateGanttTimeLabel(dragging.idx);
+
+    if (dragging.row) dragging.row.classList.remove('is-dragging');
+    dragging.block.classList.remove('is-dragging');
+    const label = dragging.block.querySelector('.gantt-block-label');
+    if (label) label.remove();
+
+    if (guideLine) guideLine.classList.remove('show');
+
+    dragging = null;
+  });
+}
+
+function updateGanttTimeLabel(idx) {
+  const s = DATA.schedule[idx];
+  const sw = Math.floor(s.start / 12.5) + 1;
+  const ew = Math.floor((s.start + (s.type === 'bar' ? s.width : 0)) / 12.5) + 1;
+  if (s.type !== 'bar') {
+    s.time = '第' + sw + '周';
+  } else if (sw === ew) {
+    s.time = '第' + sw + '周';
+  } else {
+    s.time = '第' + sw + '-' + ew + '周';
+  }
+  // refresh DOM label
+  const row = document.querySelectorAll('.gantt-row')[idx];
+  if (row) {
+    const nameEl = row.querySelector('.task-name span');
+    if (nameEl) nameEl.textContent = s.time;
+  }
+}
+
+// ===== Quote =====
+function editQuote() {
+  if(!document.body.classList.contains('edit-mode')) return;
+  document.getElementById('quoteForm').style.display = 'block';
+}
+function updateQuoteCurrency() {
+  const amount = document.getElementById('editQuoteAmount').value;
+  document.getElementById('editQuoteCurrency').value = toChineseAmount(amount);
+}
+function saveQuote() {
+  DATA.quote.code = document.getElementById('editQuoteCode').value;
+  DATA.quote.amount = document.getElementById('editQuoteAmount').value;
+  DATA.quote.currency = toChineseAmount(DATA.quote.amount);
+  renderQuote();
+  saveToStorage();
+  cancelEdit('quoteForm');
+}
+function renderQuote() {
+  document.getElementById('quoteBox').innerHTML =
+    '<div class="amt"><span>' + DATA.quote.code + '</span>' + DATA.quote.amount + '</div>' +
+    '<div class="sub">人民币' + DATA.quote.currency + '</div>';
+}
+
+// ===== Team =====
+function renderTeamDesc() {
+  document.getElementById('teamDesc').textContent = DATA.teamDesc;
+}
+function renderTeam() {
+  document.getElementById('teamGrid').innerHTML = DATA.team.map((m, i) => {
+    const hasDetail = m.bio || m.exp;
+    const photoHtml = m.photo
+      ? '<img src="' + m.photo + '" alt="' + m.name + '" onerror="this.outerHTML=\'<div class=\'ph\'>' + m.name[0] + '</div>\'">'
+      : '<div class="ph">' + m.name[0] + '</div>';
+    return '<div class="team-card" id="teamCard-' + i + '">' +
+      '<div class="team-photo">' + photoHtml +
+        '<div class="photo-upload-hint" onclick="event.stopPropagation();uploadTeamPhoto(' + i + ')">更换照片</div>' +
+      '</div>' +
+      '<div class="team-info">' +
+        '<h4>' + m.name + '<span>' + m.en + '</span></h4>' +
+        '<div class="role">' + m.role + '</div>' +
+        '<div class="edu">' + m.edu + '</div>' +
+        (m.tags && m.tags.length ? '<div class="team-tags">' + m.tags.map(t => '<span>' + t + '</span>').join('') + '</div>' : '') +
+        (hasDetail ? '<button class="team-toggle" onclick="toggleTeamDetail(' + i + ')">查看详细背景 ▾</button>' : '') +
+        (hasDetail ? '<div class="team-detail" id="teamDetail-' + i + '">' +
+          (m.bio ? '<p><strong>背景</strong> ' + m.bio + '</p>' : '') +
+          (m.exp ? '<p><strong>经历</strong> ' + m.exp + '</p>' : '') +
+        '</div>' : '') +
+      '</div></div>';
+  }).join('');
+}
+function toggleTeamDetail(i) {
+  const detail = document.getElementById('teamDetail-' + i);
+  const btn = document.querySelector('#teamCard-' + i + ' .team-toggle');
+  const isOpen = detail.classList.contains('open');
+  detail.classList.toggle('open');
+  btn.textContent = isOpen ? '查看详细背景 ▾' : '收起详细背景 ▴';
+}
+function uploadTeamPhoto(idx) {
+  if(!document.body.classList.contains('edit-mode')) return;
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function(e) {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      DATA.team[idx].photo = evt.target.result;
+      renderTeam();
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+function editTeam() {
+  if(!document.body.classList.contains('edit-mode')) return;
+  document.getElementById('editTeamDesc').value = DATA.teamDesc || document.querySelector('#teamDesc').textContent;
+  renderTeamForms();
+  document.getElementById('teamForm').style.display = 'block';
+}
+function renderTeamForms() {
+  const container = document.getElementById('teamFormsContainer');
+  container.innerHTML = DATA.team.map((m, i) => `
+    <div style="padding:16px;background:var(--white);border:1px solid var(--gray-300);border-radius:10px;margin-bottom:10px;" data-team-idx="${i}">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:10px;">
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">姓名</label>
+          <input type="text" class="team-name" data-idx="${i}" value="${m.name}" placeholder="姓名" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">英文名</label>
+          <input type="text" class="team-en" data-idx="${i}" value="${m.en}" placeholder="英文名" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">角色</label>
+          <input type="text" class="team-role" data-idx="${i}" value="${m.role}" placeholder="如：首席分析师" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">学历背景</label>
+          <input type="text" class="team-edu" data-idx="${i}" value="${m.edu}" placeholder="如：北京大学经济学硕士" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+        </div>
+        <button onclick="removeTeamMember(${i})" style="font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;padding:8px 4px;height:fit-content;">删除</button>
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">照片URL（可选）</label>
+        <input type="text" class="team-photo-url" data-idx="${i}" value="${m.photo || ''}" placeholder="粘贴照片URL，或留空使用首字母占位" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">专业标签（逗号分隔）</label>
+        <input type="text" class="team-tags" data-idx="${i}" value="${(m.tags || []).join(', ')}" placeholder="如：数据洞察, 思辨力, 责任心" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">背景介绍</label>
+        <textarea class="team-bio" data-idx="${i}" rows="2" placeholder="输入背景介绍" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;resize:vertical;">${m.bio || ''}</textarea>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">工作经历</label>
+        <textarea class="team-exp" data-idx="${i}" rows="2" placeholder="输入工作经历" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;resize:vertical;">${m.exp || ''}</textarea>
+      </div>
+    </div>
+  `).join('');
+}
+function addTeamMember() {
+  DATA.team.push({ name:'', en:'', role:'', edu:'', photo:'', tags:[], bio:'', exp:'' });
+  renderTeamForms();
+}
+function removeTeamMember(i) {
+  DATA.team.splice(i, 1);
+  renderTeamForms();
+}
+function saveTeam() {
+  DATA.teamDesc = document.getElementById('editTeamDesc').value;
+  document.getElementById('teamDesc').textContent = DATA.teamDesc;
+  document.querySelectorAll('#teamFormsContainer > div').forEach((el, i) => {
+    if(i >= DATA.team.length) return;
+    DATA.team[i].name = el.querySelector('.team-name').value;
+    DATA.team[i].en = el.querySelector('.team-en').value;
+    DATA.team[i].role = el.querySelector('.team-role').value;
+    DATA.team[i].edu = el.querySelector('.team-edu').value;
+    DATA.team[i].photo = el.querySelector('.team-photo-url').value;
+    DATA.team[i].tags = el.querySelector('.team-tags').value.split(',').map(t => t.trim()).filter(t => t);
+    DATA.team[i].bio = el.querySelector('.team-bio').value;
+    DATA.team[i].exp = el.querySelector('.team-exp').value;
+  });
+  renderTeam();
+  saveToStorage();
+  cancelEdit('teamForm');
+}
+
+// ===== Experts =====
+function renderExperts() {
+  const container = document.getElementById('expertScroll');
+  const dotsContainer = document.getElementById('expertDots');
+  if (!container) return;
+
+  const experts = DATA.experts || [];
+  if (experts.length === 0) {
+    container.innerHTML = '<p style="font-size:13px;color:var(--gray-500);text-align:center;padding:40px 0;">暂无专家资源，请点击"编辑专家"添加</p>';
+    if (dotsContainer) dotsContainer.style.display = 'none';
+    return;
+  }
+
+  container.innerHTML = experts.map((e, i) => {
+    const hasLongBio = e.bio && e.bio.length > 80;
+    return '<div class="expert-card" data-expert-index="' + i + '">' +
+      '<div class="expert-header">' +
+        '<div class="expert-avatar">' + (e.name ? e.name[0] : '?') + '</div>' +
+        '<div class="expert-meta">' +
+          '<div class="expert-name">' + (e.name || '未命名') + '</div>' +
+          '<div class="expert-company">' + (e.company || '') + '</div>' +
+          '<div class="expert-role">' + (e.role || '') + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="expert-bio" id="expertBio-' + i + '">' + (e.bio || '') + '</div>' +
+      (hasLongBio ? '<button class="expert-toggle" onclick="toggleExpertBio(' + i + ')">展开详情 ↓</button>' : '') +
+    '</div>';
+  }).join('');
+
+  // 生成圆点
+  if (dotsContainer) {
+    if (experts.length > 2) {
+      dotsContainer.innerHTML = experts.map((_, i) =>
+        '<span class="expert-dot' + (i === 0 ? ' active' : '') + '" data-dot-index="' + i + '" onclick="scrollToExpert(' + i + ')"></span>'
+      ).join('');
+      dotsContainer.style.display = 'flex';
+    } else {
+      dotsContainer.style.display = 'none';
+    }
+  }
+
+  // 绑定滚动监听
+  bindExpertScroll();
+}
+
+function scrollToExpert(index) {
+  const container = document.getElementById('expertScroll');
+  if (!container) return;
+  const card = container.querySelector('.expert-card[data-expert-index="' + index + '"]');
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+  }
+}
+
+let _expertScrollBound = false;
+function bindExpertScroll() {
+  if (_expertScrollBound) return;
+  const container = document.getElementById('expertScroll');
+  if (!container) return;
+
+  container.addEventListener('scroll', () => {
+    const cards = container.querySelectorAll('.expert-card');
+    const containerRect = container.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    cards.forEach((card, i) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const distance = Math.abs(cardCenter - containerCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = i;
+      }
+    });
+
+    updateActiveDot(closestIndex);
+  });
+
+  _expertScrollBound = true;
+}
+
+function updateActiveDot(index) {
+  const dots = document.querySelectorAll('.expert-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+
+function toggleExpertBio(i) {
+  const bio = document.getElementById('expertBio-' + i);
+  const btn = bio.parentElement.querySelector('.expert-toggle');
+  const isExpanded = bio.classList.contains('expanded');
+  bio.classList.toggle('expanded');
+  btn.textContent = isExpanded ? '展开详情 ↓' : '收起详情 ↑';
+}
+
+function editExperts() {
+  if (!document.body.classList.contains('edit-mode')) return;
+  renderExpertForms();
+  document.getElementById('expertsForm').style.display = 'block';
+}
+
+// 批量解析专家信息
+// 支持格式：
+//   张三 | 艾瑞咨询 | 首席分析师
+//   10年金融科技研究经验...
+//   （空行分隔多位专家）
+function parseBatchExperts(text) {
+  const lines = text.split('\n').map(l => l.trim());
+  const experts = [];
+  let cur = null;
+
+  function saveExpert() {
+    if (cur && (cur.name || cur.company || cur.bio)) {
+      experts.push({ ...cur });
+    }
+  }
+
+  for (const line of lines) {
+    if (!line) {
+      saveExpert();
+      cur = null;
+      continue;
+    }
+
+    // 尝试匹配 "姓名 | 公司 | 职位" 格式
+    const pipeMatch = line.match(/^([^|]+)\s*\|\s*([^|]*)\s*\|\s*(.*)$/);
+    if (pipeMatch) {
+      saveExpert();
+      cur = {
+        name: pipeMatch[1].trim(),
+        company: pipeMatch[2].trim(),
+        role: pipeMatch[3].trim(),
+        bio: ''
+      };
+      continue;
+    }
+
+    // 尝试匹配 "姓名 - 公司 - 职位" 格式
+    const dashMatch = line.match(/^([^-]+)\s*-\s*([^-]*)\s*-\s*(.*)$/);
+    if (dashMatch && dashMatch[1].length <= 10) {
+      saveExpert();
+      cur = {
+        name: dashMatch[1].trim(),
+        company: dashMatch[2].trim(),
+        role: dashMatch[3].trim(),
+        bio: ''
+      };
+      continue;
+    }
+
+    // 尝试匹配 "姓名，公司，职位" 格式
+    const commaMatch = line.match(/^([^，,]+)[，,]\s*([^，,]+)[，,]\s*(.*)$/);
+    if (commaMatch && commaMatch[1].length <= 10) {
+      saveExpert();
+      cur = {
+        name: commaMatch[1].trim(),
+        company: commaMatch[2].trim(),
+        role: commaMatch[3].trim(),
+        bio: ''
+      };
+      continue;
+    }
+
+    // 如果不是以上格式，尝试识别 "姓名 公司 职位"（空格分隔，3段式）
+    const spaceParts = line.split(/\s{2,}/);
+    if (spaceParts.length >= 3 && !cur && spaceParts[0].length <= 10) {
+      saveExpert();
+      cur = {
+        name: spaceParts[0].trim(),
+        company: spaceParts[1].trim(),
+        role: spaceParts.slice(2).join(' ').trim(),
+        bio: ''
+      };
+      continue;
+    }
+
+    // 否则作为背景经历
+    if (!cur) {
+      cur = { name: '', company: '', role: '', bio: line };
+    } else {
+      cur.bio += (cur.bio ? '\n' : '') + line;
+    }
+  }
+
+  saveExpert();
+  // 自动为没有代号的专家分配 A/B/C...，跳过已使用的字母
+  const usedLetters = new Set();
+  experts.forEach(e => {
+    const m = e.name && e.name.match(/^专家([A-Z])$/);
+    if (m) usedLetters.add(m[1].charCodeAt(0));
+  });
+  let nextCode = 65; // 'A'
+  experts.forEach(e => {
+    if (!e.name || !e.name.trim()) {
+      while (usedLetters.has(nextCode)) nextCode++;
+      e.name = '专家' + String.fromCharCode(nextCode);
+      usedLetters.add(nextCode);
+      nextCode++;
+    }
+  });
+  return experts;
+}
+
+function submitQuickExperts() {
+  const input = document.getElementById('quickExpertInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const parsed = parseBatchExperts(text);
+  if (parsed.length === 0) {
+    alert('未能识别专家信息，请检查格式');
+    return;
+  }
+  if (!DATA.experts) DATA.experts = [];
+  DATA.experts.push(...parsed);
+  input.value = '';
+  renderExpertForms();
+  alert('成功添加 ' + parsed.length + ' 位专家');
+}
+
+function addExpertFormManual() {
+  if (!DATA.experts) DATA.experts = [];
+  DATA.experts.push({ name: '', company: '', role: '', bio: '' });
+  renderExpertForms();
+}
+
+function renderExpertForms() {
+  const container = document.getElementById('expertFormsContainer');
+  const experts = DATA.experts || [];
+  container.innerHTML = experts.map((e, i) => `
+    <div class="expert-form-item" data-expert-idx="${i}">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:10px;">
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">专家代号</label>
+          <input type="text" class="expert-name" data-idx="${i}" value="${e.name}" placeholder="专家A/B/C" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">公司</label>
+          <input type="text" class="expert-company" data-idx="${i}" value="${e.company}" placeholder="所在公司" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">职位</label>
+          <input type="text" class="expert-role" data-idx="${i}" value="${e.role}" placeholder="职位" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;">
+        </div>
+        <button onclick="removeExpert(${i})" style="font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;padding:8px 4px;height:fit-content;">删除</button>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;">背景经历</label>
+        <textarea class="expert-bio" data-idx="${i}" rows="3" placeholder="输入专家背景经历" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;resize:vertical;">${e.bio || ''}</textarea>
+      </div>
+    </div>
+  `).join('');
+}
+
+function removeExpert(i) {
+  if (!DATA.experts) return;
+  DATA.experts.splice(i, 1);
+  renderExpertForms();
+}
+
+function saveExperts() {
+  if (!DATA.experts) DATA.experts = [];
+  document.querySelectorAll('#expertFormsContainer > div').forEach((el, i) => {
+    if (i >= DATA.experts.length) return;
+    DATA.experts[i].name = el.querySelector('.expert-name').value;
+    DATA.experts[i].company = el.querySelector('.expert-company').value;
+    DATA.experts[i].role = el.querySelector('.expert-role').value;
+    DATA.experts[i].bio = el.querySelector('.expert-bio').value;
+  });
+  renderExperts();
+  saveToStorage();
+  cancelEdit('expertsForm');
+}
+
+// ===== File Persistence =====
+// 将当前 DATA 序列化并替换回 HTML 文件本身，实现真正的持久保存
+function generatePersistedHTML() {
+  let html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const dataJson = JSON.stringify(DATA, null, 2);
+  const pattern = /\/\* <PROPOSAL_DATA> \*\/[\s\S]*?\/\* <\/PROPOSAL_DATA> \*\//;
+  html = html.replace(pattern, '/* <PROPOSAL_DATA> */\nlet DATA = ' + dataJson + ';\n/* </PROPOSAL_DATA> */');
+  return html;
+}
+
+async function saveToFile() {
+  try {
+    const html = generatePersistedHTML();
+    // 尝试使用 File System Access API（Chrome/Edge 支持）
+    if (window.showSaveFilePicker) {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'proposal.html',
+        types: [{ description: 'HTML 文件', accept: { 'text/html': ['.html'] } }]
+      });
+      const writable = await handle.createWritable();
+      await writable.write(html);
+      await writable.close();
+      // 记住文件句柄，下次直接覆盖
+      window._proposalFileHandle = handle;
+      alert('✅ 已保存到文件！请用此文件替换原来的 proposal.html');
+    } else {
+      // 回退方案：Blob 下载
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'proposal.html';
+      a.click();
+      URL.revokeObjectURL(url);
+      alert('✅ 文件已下载。请用下载的 proposal.html 替换原来的文件，以实现永久保存。');
+    }
+  } catch (err) {
+    if (err.name !== 'AbortError') {
+      console.error('保存失败', err);
+      alert('❌ 保存失败：' + err.message);
+    }
+  }
+}
+
+// 尝试使用已记住的文件句柄直接覆盖保存
+async function quickSave() {
+  if (!window._proposalFileHandle) {
+    saveToFile();
+    return;
+  }
+  try {
+    const html = generatePersistedHTML();
+    const writable = await window._proposalFileHandle.createWritable();
+    await writable.write(html);
+    await writable.close();
+    alert('✅ 已快速保存！');
+  } catch (err) {
+    console.error('快速保存失败', err);
+    window._proposalFileHandle = null;
+    saveToFile();
+  }
+}
+
+// ===== Export / Print =====
+
+// ===== Cancel Edit =====
+function cancelEdit(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+// ===== Password Unlock =====
+const LOCKED = false; // ← 改成 true 开启密码保护
+const EDIT_PASSWORD = 'iresearch2026'; // ← 修改这里更换密码
+
+function initClientMode() {
+  const main = document.getElementById('mainContent');
+  if (!LOCKED) {
+    document.body.className = 'preview-mode';
+    if (main) main.style.paddingTop = '64px';
+    return;
+  }
+  document.body.className = 'preview-mode';
+  document.querySelectorAll('.edit-badge').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.edit-form').forEach(el => el.style.display = 'none');
+  if (main) main.style.paddingTop = '64px';
+}
+
+function unlockEditMode() {
+  document.body.className = 'edit-mode';
+  document.querySelectorAll('.edit-badge').forEach(el => el.style.display = '');
+  const main = document.getElementById('mainContent');
+  if (main) main.style.paddingTop = '64px';
+  renderGantt();
+}
+
+function verifyPassword() {
+  const input = document.getElementById('pwInput').value;
+  const error = document.getElementById('pwError');
+  if (input === EDIT_PASSWORD) {
+    document.getElementById('pwModal').classList.remove('show');
+    document.getElementById('pwInput').value = '';
+    error.style.display = 'none';
+    unlockEditMode();
+  } else {
+    error.style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+// Enter key submits
+function initPasswordModal() {
+  document.getElementById('unlockTrigger').addEventListener('click', () => {
+    document.getElementById('pwModal').classList.add('show');
+    setTimeout(() => document.getElementById('pwInput').focus(), 100);
+  });
+  document.getElementById('pwModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('pwModal')) {
+      document.getElementById('pwModal').classList.remove('show');
+      document.getElementById('pwError').style.display = 'none';
+    }
+  });
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verifyPassword();
+  });
+}
+
+// ===== Init =====
+function render() {
+  loadData();
+  initClientMode();
+  renderHero();
+  renderCasesDesc();
+  renderCases();
+  renderPlanDesc();
+  renderOutline();
+  renderExperts();
+  renderGantt();
+  renderQuote();
+  renderTeamDesc();
+  renderTeam();
+}
+
+// Scroll spy + sticky nav + progress bar
+document.addEventListener('scroll', () => {
+  const topNav = document.getElementById('topNav');
+  if (scrollY > 20) { topNav.classList.add('scrolled'); }
+  else { topNav.classList.remove('scrolled'); }
+
+  const progress = document.getElementById('scrollProgress');
+  if (progress) {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    progress.style.width = Math.max(0, Math.min(100, (scrollTop / scrollHeight) * 100)) + '%';
+  }
+
+  const allTargets = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.top-nav-links a, .mobile-nav-links a');
+  let cur = '';
+  allTargets.forEach(t => { if(scrollY >= t.offsetTop-120) cur = t.id; });
+  links.forEach(l => l.classList.toggle('active', l.getAttribute('href')==='#'+cur));
+});
+
+// Smooth scroll for nav links (offset for fixed header)
+document.querySelectorAll('.top-nav-links a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    const offset = 80;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
+// Mobile navigation
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById('navMenuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  const mobileOverlay = document.getElementById('mobileNavOverlay');
+  const mobileClose = document.getElementById('mobileNavClose');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+
+  function openMenu() {
+    menuToggle.classList.add('active');
+    mobileNav.classList.add('open');
+    mobileOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    menuToggle.classList.remove('active');
+    mobileNav.classList.remove('open');
+    mobileOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (menuToggle) menuToggle.addEventListener('click', openMenu);
+  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+  if (mobileOverlay) mobileOverlay.addEventListener('click', closeMenu);
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      closeMenu();
+      if (target) {
+        setTimeout(() => {
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }, 350);
+      }
+    });
+  });
+});
+
+// ===== Scroll Reveal =====
+function initScrollReveal() {
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+}
+
+// 给卡片添加 stagger 延迟
+function initStaggerCards() {
+  const grids = document.querySelectorAll('.card-grid, .team-grid, .case-grid, .expert-scroll, .client-grid, .about-grid');
+  grids.forEach(grid => {
+    const cards = grid.querySelectorAll('.card, .team-card, .case-card, .expert-card, .client-box, .about-card');
+    cards.forEach((card, i) => {
+      card.style.transitionDelay = (i * 0.08) + 's';
+      card.classList.add('reveal');
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  render();
+  initPasswordModal();
+  initStaggerCards();
+  initScrollReveal();
+});
+</script>
+
+</body></html>
